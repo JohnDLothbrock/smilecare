@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 from typing import Optional
 
 from pydantic import BaseModel, Field
@@ -50,3 +50,63 @@ class DoctorUpdate(BaseModel):
     apellido: Optional[str] = Field(default=None, min_length=1, max_length=100)
     telefono: Optional[str] = Field(default=None, max_length=20)
     correo: Optional[str] = Field(default=None, max_length=150)
+
+
+class CitaCreate(BaseModel):
+    paciente_id: int
+    doctor_id: int
+    fecha_hora_inicio: datetime
+    duracion_minutos: int = Field(gt=0, le=999)
+    estado: str = Field(min_length=1, max_length=20)
+    motivo: Optional[str] = Field(default=None, max_length=250)
+
+
+class CitaUpdate(BaseModel):
+    paciente_id: Optional[int] = None
+    doctor_id: Optional[int] = None
+    fecha_hora_inicio: Optional[datetime] = None
+    duracion_minutos: Optional[int] = Field(default=None, gt=0, le=999)
+    estado: Optional[str] = Field(default=None, min_length=1, max_length=20)
+    motivo: Optional[str] = Field(default=None, max_length=250)
+
+
+class ConsultaCreate(BaseModel):
+    cita_id: int
+    diagnostico: Optional[str] = Field(default=None, max_length=500)
+    observaciones: Optional[str] = Field(default=None, max_length=500)
+    fecha_atencion: Optional[datetime] = None
+
+
+class ConsultaUpdate(BaseModel):
+    cita_id: Optional[int] = None
+    diagnostico: Optional[str] = Field(default=None, max_length=500)
+    observaciones: Optional[str] = Field(default=None, max_length=500)
+    fecha_atencion: Optional[datetime] = None
+
+
+class TratamientoCreate(BaseModel):
+    nombre: str = Field(min_length=1, max_length=100)
+    descripcion: Optional[str] = Field(default=None, max_length=300)
+    costo_base: float = Field(ge=0)
+    estado: str = Field(min_length=1, max_length=20)
+
+
+class TratamientoUpdate(BaseModel):
+    nombre: Optional[str] = Field(default=None, min_length=1, max_length=100)
+    descripcion: Optional[str] = Field(default=None, max_length=300)
+    costo_base: Optional[float] = Field(default=None, ge=0)
+    estado: Optional[str] = Field(default=None, min_length=1, max_length=20)
+
+
+class TratamientoConsultaCreate(BaseModel):
+    consulta_id: int
+    tratamiento_id: int
+    cantidad: int = Field(gt=0, le=99999)
+    precio_unitario: Optional[float] = Field(default=None, ge=0)
+
+
+class TratamientoConsultaUpdate(BaseModel):
+    consulta_id: Optional[int] = None
+    tratamiento_id: Optional[int] = None
+    cantidad: Optional[int] = Field(default=None, gt=0, le=99999)
+    precio_unitario: Optional[float] = Field(default=None, ge=0)

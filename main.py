@@ -3,9 +3,15 @@ from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 
 from backend.database import get_db
+from backend.routes.cita_routes import router as cita_router
+from backend.routes.consulta_routes import router as consulta_router
 from backend.routes.doctor_routes import router as doctor_router
 from backend.routes.especialidad_routes import router as especialidad_router
 from backend.routes.paciente_routes import router as paciente_router
+from backend.routes.tratamiento_consulta_routes import (
+    router as tratamiento_consulta_router
+)
+from backend.routes.tratamiento_routes import router as tratamiento_router
 
 
 app = FastAPI(
@@ -32,6 +38,10 @@ app.add_middleware(
 app.include_router(paciente_router)
 app.include_router(especialidad_router)
 app.include_router(doctor_router)
+app.include_router(cita_router)
+app.include_router(consulta_router)
+app.include_router(tratamiento_router)
+app.include_router(tratamiento_consulta_router)
 
 
 def raise_database_error(error: Exception):

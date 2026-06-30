@@ -4,33 +4,21 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8a7a8932-3c61-470a-b72b-bfc406297961" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/smilecare.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/database.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/repositories/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/repositories/doctor_repository.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/repositories/especialidad_repository.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/repositories/paciente_repository.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/requirements.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/routes/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/routes/doctor_routes.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/routes/especialidad_routes.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/routes/paciente_routes.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/schemas.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/services/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/services/doctor_service.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/services/especialidad_service.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/services/paciente_service.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_main.http" afterDir="false" />
+    <list default="true" id="8a7a8932-3c61-470a-b72b-bfc406297961" name="Changes" comment="first modules of the backend">
+      <change afterPath="$PROJECT_DIR$/backend/repositories/cita_repository.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/repositories/consulta_repository.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/repositories/tratamiento_consulta_repository.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/repositories/tratamiento_repository.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/routes/cita_routes.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/routes/consulta_routes.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/routes/tratamiento_consulta_routes.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/routes/tratamiento_routes.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/services/cita_service.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/services/consulta_service.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/services/tratamiento_consulta_service.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/services/tratamiento_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/schemas.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,11 +37,26 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "JohnDLothbrock"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/JohnDLothbrock/smilecare.git",
+    "accountId": "0566f9aa-b488-4ee3-83d3-2b1fc4180c97"
+  }
+}]]></component>
   <component name="ProjectColorInfo"><![CDATA[{
   "associatedIndex": 0,
   "fromUser": false
 }]]></component>
   <component name="ProjectId" id="3Fq4ZGa8CsGWac4fcbFJMXcsIm4" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -111,11 +114,24 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1782789318473</updated>
-      <workItem from="1782789319477" duration="4723000" />
+      <workItem from="1782789319477" duration="5932000" />
     </task>
+    <task id="LOCAL-00001" summary="first modules of the backend">
+      <option name="closed" value="true" />
+      <created>1782827765493</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1782827765494</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="first modules of the backend" />
+    <option name="LAST_COMMIT_MESSAGE" value="first modules of the backend" />
   </component>
 </project>
