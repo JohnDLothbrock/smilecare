@@ -146,3 +146,33 @@ class DetalleFacturaUpdate(BaseModel):
     descripcion: Optional[str] = Field(default=None, max_length=300)
     cantidad: Optional[int] = Field(default=None, gt=0, le=99999)
     precio_unitario: Optional[float] = Field(default=None, ge=0)
+
+
+class MetodoPagoCreate(BaseModel):
+    nombre: str = Field(min_length=1, max_length=50)
+    descripcion: Optional[str] = Field(default=None, max_length=200)
+    estado: str = Field(min_length=1, max_length=20)
+
+
+class MetodoPagoUpdate(BaseModel):
+    nombre: Optional[str] = Field(default=None, min_length=1, max_length=50)
+    descripcion: Optional[str] = Field(default=None, max_length=200)
+    estado: Optional[str] = Field(default=None, min_length=1, max_length=20)
+
+
+class PagoCreate(BaseModel):
+    factura_id: int
+    metodo_pago_id: int
+    monto: float = Field(gt=0)
+    fecha_pago: Optional[date] = None
+    numero_referencia: Optional[str] = Field(default=None, max_length=100)
+    estado: str = Field(min_length=1, max_length=20)
+
+
+class PagoUpdate(BaseModel):
+    factura_id: Optional[int] = None
+    metodo_pago_id: Optional[int] = None
+    monto: Optional[float] = Field(default=None, gt=0)
+    fecha_pago: Optional[date] = None
+    numero_referencia: Optional[str] = Field(default=None, max_length=100)
+    estado: Optional[str] = Field(default=None, min_length=1, max_length=20)

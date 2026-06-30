@@ -9,7 +9,9 @@ from backend.routes.detalle_factura_routes import router as detalle_factura_rout
 from backend.routes.doctor_routes import router as doctor_router
 from backend.routes.especialidad_routes import router as especialidad_router
 from backend.routes.factura_routes import router as factura_router
+from backend.routes.metodo_pago_routes import router as metodo_pago_router
 from backend.routes.paciente_routes import router as paciente_router
+from backend.routes.pago_routes import router as pago_router
 from backend.routes.tratamiento_consulta_routes import (
     router as tratamiento_consulta_router
 )
@@ -46,6 +48,8 @@ app.include_router(tratamiento_router)
 app.include_router(tratamiento_consulta_router)
 app.include_router(factura_router)
 app.include_router(detalle_factura_router)
+app.include_router(metodo_pago_router)
+app.include_router(pago_router)
 
 
 def raise_database_error(error: Exception):

@@ -4,15 +4,13 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8a7a8932-3c61-470a-b72b-bfc406297961" name="Changes" comment="cita, consulta y tratamiento">
-      <change afterPath="$PROJECT_DIR$/backend/repositories/detalle_factura_repository.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/repositories/factura_repository.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/routes/detalle_factura_routes.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/routes/factura_routes.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/services/detalle_factura_service.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/services/factura_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/routes/consulta_routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/consulta_routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/routes/tratamiento_consulta_routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/tratamiento_consulta_routes.py" afterDir="false" />
+    <list default="true" id="8a7a8932-3c61-470a-b72b-bfc406297961" name="Changes" comment="consultas, facturas, tratamiento">
+      <change afterPath="$PROJECT_DIR$/backend/repositories/metodo_pago_repository.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/repositories/pago_repository.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/routes/metodo_pago_routes.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/routes/pago_routes.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/services/metodo_pago_service.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/services/pago_service.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/schemas.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -110,7 +108,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1782789318473</updated>
-      <workItem from="1782789319477" duration="6462000" />
+      <workItem from="1782789319477" duration="6965000" />
     </task>
     <task id="LOCAL-00001" summary="first modules of the backend">
       <option name="closed" value="true" />
@@ -128,7 +126,15 @@
       <option name="project" value="LOCAL" />
       <updated>1782828957367</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="consultas, facturas, tratamiento">
+      <option name="closed" value="true" />
+      <created>1782829503641</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1782829503641</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -137,6 +143,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="first modules of the backend" />
     <MESSAGE value="cita, consulta y tratamiento" />
-    <option name="LAST_COMMIT_MESSAGE" value="cita, consulta y tratamiento" />
+    <MESSAGE value="consultas, facturas, tratamiento" />
+    <option name="LAST_COMMIT_MESSAGE" value="consultas, facturas, tratamiento" />
   </component>
 </project>
