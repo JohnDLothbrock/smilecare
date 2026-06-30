@@ -110,3 +110,39 @@ class TratamientoConsultaUpdate(BaseModel):
     tratamiento_id: Optional[int] = None
     cantidad: Optional[int] = Field(default=None, gt=0, le=99999)
     precio_unitario: Optional[float] = Field(default=None, ge=0)
+
+
+class FacturaCreate(BaseModel):
+    paciente_id: int
+    consulta_id: Optional[int] = None
+    numero_factura: str = Field(min_length=1, max_length=30)
+    fecha_emision: Optional[date] = None
+    subtotal: Optional[float] = Field(default=None, ge=0)
+    impuesto: Optional[float] = Field(default=0, ge=0)
+    estado: str = Field(min_length=1, max_length=20)
+
+
+class FacturaUpdate(BaseModel):
+    paciente_id: Optional[int] = None
+    consulta_id: Optional[int] = None
+    numero_factura: Optional[str] = Field(default=None, min_length=1, max_length=30)
+    fecha_emision: Optional[date] = None
+    subtotal: Optional[float] = Field(default=None, ge=0)
+    impuesto: Optional[float] = Field(default=None, ge=0)
+    estado: Optional[str] = Field(default=None, min_length=1, max_length=20)
+
+
+class DetalleFacturaCreate(BaseModel):
+    factura_id: int
+    tratamiento_consulta_id: Optional[int] = None
+    descripcion: Optional[str] = Field(default=None, max_length=300)
+    cantidad: int = Field(gt=0, le=99999)
+    precio_unitario: Optional[float] = Field(default=None, ge=0)
+
+
+class DetalleFacturaUpdate(BaseModel):
+    factura_id: Optional[int] = None
+    tratamiento_consulta_id: Optional[int] = None
+    descripcion: Optional[str] = Field(default=None, max_length=300)
+    cantidad: Optional[int] = Field(default=None, gt=0, le=99999)
+    precio_unitario: Optional[float] = Field(default=None, ge=0)

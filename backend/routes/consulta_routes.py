@@ -18,18 +18,18 @@ def get_consultas(connection=Depends(get_db)):
     return consulta_service.get_all_consultas()
 
 
-@router.get("/{consulta_id}")
-def get_consulta(consulta_id: int, connection=Depends(get_db)):
-    consulta_service = ConsultaService(connection)
-
-    return consulta_service.get_consulta_by_id(consulta_id)
-
-
 @router.get("/por-cita/{cita_id}")
 def get_consulta_by_cita_id(cita_id: int, connection=Depends(get_db)):
     consulta_service = ConsultaService(connection)
 
     return consulta_service.get_consulta_by_cita_id(cita_id)
+
+
+@router.get("/{consulta_id}")
+def get_consulta(consulta_id: int, connection=Depends(get_db)):
+    consulta_service = ConsultaService(connection)
+
+    return consulta_service.get_consulta_by_id(consulta_id)
 
 
 @router.post("", status_code=status.HTTP_201_CREATED)

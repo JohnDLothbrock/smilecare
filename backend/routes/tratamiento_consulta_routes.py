@@ -23,18 +23,6 @@ def get_tratamientos_consulta(connection=Depends(get_db)):
     return tratamiento_consulta_service.get_all_tratamientos_consulta()
 
 
-@router.get("/{tratamiento_consulta_id}")
-def get_tratamiento_consulta(
-    tratamiento_consulta_id: int,
-    connection=Depends(get_db)
-):
-    tratamiento_consulta_service = TratamientoConsultaService(connection)
-
-    return tratamiento_consulta_service.get_tratamiento_consulta_by_id(
-        tratamiento_consulta_id
-    )
-
-
 @router.get("/por-consulta/{consulta_id}")
 def get_tratamientos_by_consulta_id(
     consulta_id: int,
@@ -44,6 +32,18 @@ def get_tratamientos_by_consulta_id(
 
     return tratamiento_consulta_service.get_tratamientos_by_consulta_id(
         consulta_id
+    )
+
+
+@router.get("/{tratamiento_consulta_id}")
+def get_tratamiento_consulta(
+    tratamiento_consulta_id: int,
+    connection=Depends(get_db)
+):
+    tratamiento_consulta_service = TratamientoConsultaService(connection)
+
+    return tratamiento_consulta_service.get_tratamiento_consulta_by_id(
+        tratamiento_consulta_id
     )
 
 
