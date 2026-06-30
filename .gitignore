@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment variables
+.env
+backend/.env
+
+# PyCharm
+.idea/
+
+# Logs
+*.log
+
+# Node / React
+node_modules/
+dist/
+build/
+
+# Oracle Wallet
+Wallet_*/
+*.zip
+*.sso
+*.p12
+*.pem
+*.jks
+tnsnames.ora
+sqlnet.ora
+ojdbc.properties
