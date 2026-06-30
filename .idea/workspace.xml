@@ -4,13 +4,25 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8a7a8932-3c61-470a-b72b-bfc406297961" name="Changes" comment="consultas, facturas, tratamiento">
-      <change afterPath="$PROJECT_DIR$/backend/repositories/metodo_pago_repository.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/repositories/pago_repository.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/routes/metodo_pago_routes.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/routes/pago_routes.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/services/metodo_pago_service.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/services/pago_service.py" afterDir="false" />
+    <list default="true" id="8a7a8932-3c61-470a-b72b-bfc406297961" name="Changes" comment="modulo pago">
+      <change afterPath="$PROJECT_DIR$/backend/repositories/cirugia_repository.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/repositories/comprobante_repository.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/repositories/historial_medico_repository.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/repositories/insumo_repository.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/repositories/inventario_stock_repository.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/repositories/proveedor_repository.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/routes/cirugia_routes.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/routes/comprobante_routes.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/routes/historial_medico_routes.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/routes/insumo_routes.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/routes/inventario_stock_routes.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/routes/proveedor_routes.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/services/cirugia_service.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/services/comprobante_service.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/services/historial_medico_service.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/services/insumo_service.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/services/inventario_stock_service.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/services/proveedor_service.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/schemas.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -108,7 +120,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1782789318473</updated>
-      <workItem from="1782789319477" duration="6965000" />
+      <workItem from="1782789319477" duration="8441000" />
     </task>
     <task id="LOCAL-00001" summary="first modules of the backend">
       <option name="closed" value="true" />
@@ -134,7 +146,15 @@
       <option name="project" value="LOCAL" />
       <updated>1782829503641</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="modulo pago">
+      <option name="closed" value="true" />
+      <created>1782829998894</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1782829998894</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -144,6 +164,7 @@
     <MESSAGE value="first modules of the backend" />
     <MESSAGE value="cita, consulta y tratamiento" />
     <MESSAGE value="consultas, facturas, tratamiento" />
-    <option name="LAST_COMMIT_MESSAGE" value="consultas, facturas, tratamiento" />
+    <MESSAGE value="modulo pago" />
+    <option name="LAST_COMMIT_MESSAGE" value="modulo pago" />
   </component>
 </project>
