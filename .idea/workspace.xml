@@ -4,25 +4,22 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8a7a8932-3c61-470a-b72b-bfc406297961" name="Changes" comment="modulo pago">
-      <change afterPath="$PROJECT_DIR$/backend/repositories/cirugia_repository.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/repositories/comprobante_repository.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/repositories/historial_medico_repository.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/repositories/insumo_repository.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/repositories/inventario_stock_repository.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/repositories/proveedor_repository.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/routes/cirugia_routes.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/routes/comprobante_routes.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/routes/historial_medico_routes.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/routes/insumo_routes.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/routes/inventario_stock_routes.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/routes/proveedor_routes.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/services/cirugia_service.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/services/comprobante_service.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/services/historial_medico_service.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/services/insumo_service.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/services/inventario_stock_service.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/services/proveedor_service.py" afterDir="false" />
+    <list default="true" id="8a7a8932-3c61-470a-b72b-bfc406297961" name="Changes" comment="cirugia, comprobante, historial, insumos, inventario y proveedor modules">
+      <change afterPath="$PROJECT_DIR$/backend/core/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/core/exception_handlers.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/core/logger.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/middleware/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/middleware/request_logging.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/repositories/compra_repository.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/repositories/detalle_compra_repository.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/repositories/movimiento_inventario_repository.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/routes/compra_routes.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/routes/detalle_compra_routes.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/routes/movimiento_inventario_routes.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/services/compra_service.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/services/detalle_compra_service.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/services/movimiento_inventario_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/schemas.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -120,7 +117,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1782789318473</updated>
-      <workItem from="1782789319477" duration="8441000" />
+      <workItem from="1782789319477" duration="11006000" />
     </task>
     <task id="LOCAL-00001" summary="first modules of the backend">
       <option name="closed" value="true" />
@@ -154,7 +151,15 @@
       <option name="project" value="LOCAL" />
       <updated>1782829998894</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="cirugia, comprobante, historial, insumos, inventario y proveedor modules">
+      <option name="closed" value="true" />
+      <created>1782831522216</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1782831522216</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -165,6 +170,7 @@
     <MESSAGE value="cita, consulta y tratamiento" />
     <MESSAGE value="consultas, facturas, tratamiento" />
     <MESSAGE value="modulo pago" />
-    <option name="LAST_COMMIT_MESSAGE" value="modulo pago" />
+    <MESSAGE value="cirugia, comprobante, historial, insumos, inventario y proveedor modules" />
+    <option name="LAST_COMMIT_MESSAGE" value="cirugia, comprobante, historial, insumos, inventario y proveedor modules" />
   </component>
 </project>

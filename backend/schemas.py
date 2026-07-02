@@ -280,3 +280,52 @@ class InventarioStockUpdate(BaseModel):
     stock_actual: Optional[float] = Field(default=None, ge=0)
     stock_minimo: Optional[float] = Field(default=None, ge=0)
     ubicacion: Optional[str] = Field(default=None, max_length=100)
+
+
+class CompraCreate(BaseModel):
+    proveedor_id: int
+    usuario_id: int
+    fecha_compra: Optional[date] = None
+    total: Optional[float] = Field(default=0, ge=0)
+    estado: str = Field(min_length=1, max_length=20)
+
+
+class CompraUpdate(BaseModel):
+    proveedor_id: Optional[int] = None
+    usuario_id: Optional[int] = None
+    fecha_compra: Optional[date] = None
+    total: Optional[float] = Field(default=None, ge=0)
+    estado: Optional[str] = Field(default=None, min_length=1, max_length=20)
+
+
+class DetalleCompraCreate(BaseModel):
+    compra_id: int
+    insumo_id: int
+    cantidad: float = Field(gt=0)
+    costo_unitario: float = Field(ge=0)
+
+
+class DetalleCompraUpdate(BaseModel):
+    compra_id: Optional[int] = None
+    insumo_id: Optional[int] = None
+    cantidad: Optional[float] = Field(default=None, gt=0)
+    costo_unitario: Optional[float] = Field(default=None, ge=0)
+
+
+class MovimientoInventarioCreate(BaseModel):
+    insumo_id: int
+    usuario_id: int
+    detalle_compra_id: Optional[int] = None
+    consulta_id: Optional[int] = None
+    tipo_movimiento: str = Field(pattern="^(ENTRADA|SALIDA|AJUSTE)$")
+    cantidad: float = Field(gt=0)
+    fecha_movimiento: Optional[date] = None
+    motivo: Optional[str] = Field(default=None, max_length=250)
+
+
+class MovimientoInventarioUpdate(BaseModel):
+    usuario_id: Optional[int] = None
+    detalle_compra_id: Optional[int] = None
+    consulta_id: Optional[int] = None
+    fecha_movimiento: Optional[date] = None
+    motivo: Optional[str] = Field(default=None, max_length=250)
