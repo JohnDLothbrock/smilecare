@@ -4,39 +4,12 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8a7a8932-3c61-470a-b72b-bfc406297961" name="Changes" comment="exceptions, detalles compra, logs, movimiento inventario">
-      <change afterPath="$PROJECT_DIR$/backend/repositories/disponibilidad_doctor_repository.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/repositories/horario_doctor_repository.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/routes/disponibilidad_doctor_routes.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/routes/horario_doctor_routes.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/services/disponibilidad_doctor_service.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/services/horario_doctor_service.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/oracle/01_auditoria_triggers.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/oracle/02_paquetes_crud.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/oracle/03_pkg_crud_finanzas.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/oracle/04_pkg_crud_inventario.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/oracle/05_pkg_crud_clinico.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/oracle/06_consultas_regex.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/oracle/07_pkg_crud_seguridad.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/oracle/08_verificacion_final.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/oracle/09_datos_prueba_frontend.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/api/apiClient.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/Navbar.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/Citas.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/Consultas.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/Doctores.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/Facturas.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/Home.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/Insumos.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/InventarioStock.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/MetodosPago.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/Pacientes.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/Pagos.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/Proveedores.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/Tratamientos.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/TratamientosConsulta.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/schemas.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+    <list default="true" id="8a7a8932-3c61-470a-b72b-bfc406297961" name="Changes" comment="trabajo del front">
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/Compras.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/DetalleCompra.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/InventarioStock.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/InventarioStock.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,7 +111,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1782789318473</updated>
-      <workItem from="1782789319477" duration="19223000" />
+      <workItem from="1782789319477" duration="20885000" />
     </task>
     <task id="LOCAL-00001" summary="first modules of the backend">
       <option name="closed" value="true" />
@@ -188,7 +161,23 @@
       <option name="project" value="LOCAL" />
       <updated>1782955264486</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="9 sqls para los requisitos del proyecto, triggers, expresiones regulares, procedimientos con cursores, tablas, datos etc.">
+      <option name="closed" value="true" />
+      <created>1783002655584</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1783002655584</updated>
+    </task>
+    <task id="LOCAL-00008" summary="trabajo del front">
+      <option name="closed" value="true" />
+      <created>1783002739240</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1783002739240</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -201,6 +190,8 @@
     <MESSAGE value="modulo pago" />
     <MESSAGE value="cirugia, comprobante, historial, insumos, inventario y proveedor modules" />
     <MESSAGE value="exceptions, detalles compra, logs, movimiento inventario" />
-    <option name="LAST_COMMIT_MESSAGE" value="exceptions, detalles compra, logs, movimiento inventario" />
+    <MESSAGE value="9 sqls para los requisitos del proyecto, triggers, expresiones regulares, procedimientos con cursores, tablas, datos etc." />
+    <MESSAGE value="trabajo del front" />
+    <option name="LAST_COMMIT_MESSAGE" value="trabajo del front" />
   </component>
 </project>

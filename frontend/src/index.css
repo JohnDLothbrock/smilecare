@@ -257,3 +257,14 @@ th {
   background: #fee2e2;
   color: #991b1b;
 }
+
+.warning-badge {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.helper-text {
+  color: #64748b;
+  font-size: 14px;
+  margin-bottom: 16px;
+}

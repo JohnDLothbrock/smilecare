@@ -14,6 +14,8 @@ import Pagos from "./pages/Pagos.jsx";
 import Proveedores from "./pages/Proveedores.jsx";
 import Tratamientos from "./pages/Tratamientos.jsx";
 import TratamientosConsulta from "./pages/TratamientosConsulta.jsx";
+import Compras from "./pages/Compras.jsx";
+import DetalleCompra from "./pages/DetalleCompra.jsx";
 
 function App() {
   return (
@@ -28,16 +30,15 @@ function App() {
           <Route path="/citas" element={<Citas />} />
           <Route path="/consultas" element={<Consultas />} />
           <Route path="/tratamientos" element={<Tratamientos />} />
-          <Route
-            path="/tratamientos-consulta"
-            element={<TratamientosConsulta />}
-          />
+          <Route path="/tratamientos-consulta" element={<TratamientosConsulta />}/>
           <Route path="/facturas" element={<Facturas />} />
           <Route path="/metodos-pago" element={<MetodosPago />} />
           <Route path="/pagos" element={<Pagos />} />
           <Route path="/proveedores" element={<Proveedores />} />
           <Route path="/insumos" element={<Insumos />} />
           <Route path="/inventario-stock" element={<InventarioStock />} />
+          <Route path="/compras" element={<Compras />} />
+          <Route path="/detalle-compra" element={<DetalleCompra />} />
         </Routes>
       </main>
     </>
