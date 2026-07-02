@@ -329,3 +329,46 @@ class MovimientoInventarioUpdate(BaseModel):
     consulta_id: Optional[int] = None
     fecha_movimiento: Optional[date] = None
     motivo: Optional[str] = Field(default=None, max_length=250)
+
+class HorarioDoctorCreate(BaseModel):
+    doctor_id: int
+    dia_semana: str = Field(min_length=1, max_length=15)
+    hora_inicio: str = Field(pattern="^([01][0-9]|2[0-3]):[0-5][0-9]$")
+    hora_fin: str = Field(pattern="^([01][0-9]|2[0-3]):[0-5][0-9]$")
+    estado: str = Field(min_length=1, max_length=20)
+
+
+class HorarioDoctorUpdate(BaseModel):
+    doctor_id: Optional[int] = None
+    dia_semana: Optional[str] = Field(default=None, min_length=1, max_length=15)
+    hora_inicio: Optional[str] = Field(
+        default=None,
+        pattern="^([01][0-9]|2[0-3]):[0-5][0-9]$"
+    )
+    hora_fin: Optional[str] = Field(
+        default=None,
+        pattern="^([01][0-9]|2[0-3]):[0-5][0-9]$"
+    )
+    estado: Optional[str] = Field(default=None, min_length=1, max_length=20)
+
+
+class DisponibilidadDoctorCreate(BaseModel):
+    doctor_id: int
+    fecha: date
+    hora_inicio: str = Field(pattern="^([01][0-9]|2[0-3]):[0-5][0-9]$")
+    hora_fin: str = Field(pattern="^([01][0-9]|2[0-3]):[0-5][0-9]$")
+    estado: str = Field(min_length=1, max_length=20)
+
+
+class DisponibilidadDoctorUpdate(BaseModel):
+    doctor_id: Optional[int] = None
+    fecha: Optional[date] = None
+    hora_inicio: Optional[str] = Field(
+        default=None,
+        pattern="^([01][0-9]|2[0-3]):[0-5][0-9]$"
+    )
+    hora_fin: Optional[str] = Field(
+        default=None,
+        pattern="^([01][0-9]|2[0-3]):[0-5][0-9]$"
+    )
+    estado: Optional[str] = Field(default=None, min_length=1, max_length=20)

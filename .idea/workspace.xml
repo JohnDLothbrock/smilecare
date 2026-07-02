@@ -4,22 +4,37 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8a7a8932-3c61-470a-b72b-bfc406297961" name="Changes" comment="cirugia, comprobante, historial, insumos, inventario y proveedor modules">
-      <change afterPath="$PROJECT_DIR$/backend/core/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/core/exception_handlers.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/core/logger.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/middleware/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/middleware/request_logging.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/repositories/compra_repository.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/repositories/detalle_compra_repository.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/repositories/movimiento_inventario_repository.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/routes/compra_routes.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/routes/detalle_compra_routes.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/routes/movimiento_inventario_routes.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/services/compra_service.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/services/detalle_compra_service.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/services/movimiento_inventario_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="8a7a8932-3c61-470a-b72b-bfc406297961" name="Changes" comment="exceptions, detalles compra, logs, movimiento inventario">
+      <change afterPath="$PROJECT_DIR$/backend/repositories/disponibilidad_doctor_repository.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/repositories/horario_doctor_repository.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/routes/disponibilidad_doctor_routes.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/routes/horario_doctor_routes.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/services/disponibilidad_doctor_service.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/services/horario_doctor_service.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/oracle/01_auditoria_triggers.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/oracle/02_paquetes_crud.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/oracle/03_pkg_crud_finanzas.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/oracle/04_pkg_crud_inventario.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/oracle/05_pkg_crud_clinico.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/oracle/06_consultas_regex.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/oracle/07_pkg_crud_seguridad.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/oracle/08_verificacion_final.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/oracle/09_datos_prueba_frontend.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/api/apiClient.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/Navbar.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/Citas.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/Consultas.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/Doctores.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/Facturas.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/Home.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/Insumos.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/InventarioStock.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/MetodosPago.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/Pacientes.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/Pagos.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/Proveedores.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/Tratamientos.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/TratamientosConsulta.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/schemas.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -80,7 +95,13 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "oracle"
+    ]
   }
 }]]></component>
   <component name="RunManager">
@@ -117,7 +138,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1782789318473</updated>
-      <workItem from="1782789319477" duration="11006000" />
+      <workItem from="1782789319477" duration="19223000" />
     </task>
     <task id="LOCAL-00001" summary="first modules of the backend">
       <option name="closed" value="true" />
@@ -159,7 +180,15 @@
       <option name="project" value="LOCAL" />
       <updated>1782831522216</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="exceptions, detalles compra, logs, movimiento inventario">
+      <option name="closed" value="true" />
+      <created>1782955264486</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1782955264486</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -171,6 +200,7 @@
     <MESSAGE value="consultas, facturas, tratamiento" />
     <MESSAGE value="modulo pago" />
     <MESSAGE value="cirugia, comprobante, historial, insumos, inventario y proveedor modules" />
-    <option name="LAST_COMMIT_MESSAGE" value="cirugia, comprobante, historial, insumos, inventario y proveedor modules" />
+    <MESSAGE value="exceptions, detalles compra, logs, movimiento inventario" />
+    <option name="LAST_COMMIT_MESSAGE" value="exceptions, detalles compra, logs, movimiento inventario" />
   </component>
 </project>
