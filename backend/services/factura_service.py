@@ -26,7 +26,7 @@ def raise_database_error(error: Exception):
     if "ORA-02292" in error_message:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
-            detail="No se puede eliminar la factura porque tiene detalles, pagos o comprobantes relacionados."
+            detail="No se puede eliminar físicamente la factura porque tiene detalles, pagos o comprobantes relacionados. Use anulación lógica."
         )
 
     raise HTTPException(
@@ -283,13 +283,61 @@ class FacturaService:
                     detail="Factura no encontrada."
                 )
 
-            self.factura_repository.delete(factura_id)
+            if current_factura["estado"] == "ANULADA":
+                return {
+                    "message": "La factura ya se encuentra anulada.",
+                    "factura_id": factura_id,
+                    "estado": "ANULADA"
+                }
+
+            updated_factura = self.factura_repository.soft_delete(factura_id)
 
             self.connection.commit()
 
             return {
-                "message": "Factura eliminada correctamente.",
-                "factura_id": factura_id
+                "message": "Factura anulada correctamente. Los detalles, pagos y comprobantes se conservaron.",
+                "factura": updated_factura
+            }
+
+        except HTTPException:
+            raise
+
+        except Exception as error:
+            self.connection.rollback()
+            raise_database_error(error)
+
+    def restore_factura(self, factura_id: int):
+        try:
+            current_factura = self.factura_repository.get_by_id(factura_id)
+
+            if current_factura is None:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail="Factura no encontrada."
+                )
+
+            if current_factura["estado"] != "ANULADA":
+                return {
+                    "message": "La factura no está anulada, no es necesario restaurarla.",
+                    "factura": current_factura
+                }
+
+            applied_payments = self.factura_repository.count_applied_payments(
+                factura_id
+            )
+
+            new_status = "PAGADA" if applied_payments > 0 else "PENDIENTE"
+
+            restored_factura = self.factura_repository.restore(
+                factura_id,
+                new_status
+            )
+
+            self.connection.commit()
+
+            return {
+                "message": f"Factura restaurada correctamente con estado {new_status}.",
+                "factura": restored_factura
             }
 
         except HTTPException:

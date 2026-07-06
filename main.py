@@ -35,6 +35,7 @@ from backend.routes.disponibilidad_doctor_routes import (
     router as disponibilidad_doctor_router
 )
 from backend.routes.horario_doctor_routes import router as horario_doctor_router
+from backend.routes.security_routes import router as security_router
 
 setup_logging()
 
@@ -90,6 +91,7 @@ app.include_router(detalle_compra_router)
 app.include_router(movimiento_inventario_router)
 app.include_router(horario_doctor_router)
 app.include_router(disponibilidad_doctor_router)
+app.include_router(security_router)
 
 
 def raise_database_error(error: Exception):

@@ -12,15 +12,22 @@ def serialize_value(value: Any) -> Any:
 
 
 def rows_to_dicts(cursor, rows):
-    columns = [column[0].lower() for column in cursor.description]
+    columns = [
+        column[0].lower()
+        for column in cursor.description
+    ]
 
     result = []
 
     for row in rows:
         row_dict = {}
 
-        for index, column_name in enumerate(columns):
-            row_dict[column_name] = serialize_value(row[index])
+        for index, column_name in enumerate(
+            columns
+        ):
+            row_dict[column_name] = serialize_value(
+                row[index]
+            )
 
         result.append(row_dict)
 
@@ -43,25 +50,39 @@ class InventarioStockRepository:
                     s.insumo_id,
                     i.codigo AS insumo_codigo,
                     i.nombre AS insumo_nombre,
+                    i.descripcion AS insumo_descripcion,
                     i.unidad_medida,
+                    i.estado AS insumo_estado,
                     s.stock_actual,
                     s.stock_minimo,
                     s.ubicacion
                 FROM inventario_stock s
                 INNER JOIN insumos i
                     ON s.insumo_id = i.insumo_id
-                ORDER BY s.stock_id
+                ORDER BY
+                    CASE
+                        WHEN i.estado = 'ACTIVO' THEN 0
+                        ELSE 1
+                    END,
+                    i.nombre,
+                    s.stock_id
                 """
             )
 
             rows = cursor.fetchall()
 
-            return rows_to_dicts(cursor, rows)
+            return rows_to_dicts(
+                cursor,
+                rows
+            )
 
         finally:
             cursor.close()
 
-    def get_by_id(self, stock_id: int) -> Optional[dict]:
+    def get_by_id(
+        self,
+        stock_id: int
+    ) -> Optional[dict]:
         cursor = self.connection.cursor()
 
         try:
@@ -72,7 +93,9 @@ class InventarioStockRepository:
                     s.insumo_id,
                     i.codigo AS insumo_codigo,
                     i.nombre AS insumo_nombre,
+                    i.descripcion AS insumo_descripcion,
                     i.unidad_medida,
+                    i.estado AS insumo_estado,
                     s.stock_actual,
                     s.stock_minimo,
                     s.ubicacion
@@ -91,12 +114,18 @@ class InventarioStockRepository:
             if row is None:
                 return None
 
-            return rows_to_dicts(cursor, [row])[0]
+            return rows_to_dicts(
+                cursor,
+                [row]
+            )[0]
 
         finally:
             cursor.close()
 
-    def get_by_insumo_id(self, insumo_id: int) -> Optional[dict]:
+    def get_by_insumo_id(
+        self,
+        insumo_id: int
+    ) -> Optional[dict]:
         cursor = self.connection.cursor()
 
         try:
@@ -107,7 +136,9 @@ class InventarioStockRepository:
                     s.insumo_id,
                     i.codigo AS insumo_codigo,
                     i.nombre AS insumo_nombre,
+                    i.descripcion AS insumo_descripcion,
                     i.unidad_medida,
+                    i.estado AS insumo_estado,
                     s.stock_actual,
                     s.stock_minimo,
                     s.ubicacion
@@ -126,16 +157,24 @@ class InventarioStockRepository:
             if row is None:
                 return None
 
-            return rows_to_dicts(cursor, [row])[0]
+            return rows_to_dicts(
+                cursor,
+                [row]
+            )[0]
 
         finally:
             cursor.close()
 
-    def create(self, stock_data: dict) -> dict:
+    def create(
+        self,
+        stock_data: dict
+    ) -> dict:
         cursor = self.connection.cursor()
 
         try:
-            new_id = cursor.var(oracledb.NUMBER)
+            new_id = cursor.var(
+                oracledb.NUMBER
+            )
 
             cursor.execute(
                 """
@@ -154,22 +193,47 @@ class InventarioStockRepository:
                 RETURNING stock_id INTO :new_id
                 """,
                 {
-                    "insumo_id": stock_data.get("insumo_id"),
-                    "stock_actual": stock_data.get("stock_actual"),
-                    "stock_minimo": stock_data.get("stock_minimo"),
-                    "ubicacion": stock_data.get("ubicacion"),
-                    "new_id": new_id
+                    "insumo_id":
+                        stock_data.get(
+                            "insumo_id"
+                        ),
+
+                    "stock_actual":
+                        stock_data.get(
+                            "stock_actual"
+                        ),
+
+                    "stock_minimo":
+                        stock_data.get(
+                            "stock_minimo"
+                        ),
+
+                    "ubicacion":
+                        stock_data.get(
+                            "ubicacion"
+                        ),
+
+                    "new_id":
+                        new_id
                 }
             )
 
-            stock_id = int(new_id.getvalue()[0])
+            stock_id = int(
+                new_id.getvalue()[0]
+            )
 
-            return self.get_by_id(stock_id)
+            return self.get_by_id(
+                stock_id
+            )
 
         finally:
             cursor.close()
 
-    def update(self, stock_id: int, stock_data: dict) -> Optional[dict]:
+    def update(
+        self,
+        stock_id: int,
+        stock_data: dict
+    ) -> Optional[dict]:
         allowed_fields = [
             "insumo_id",
             "stock_actual",
@@ -181,12 +245,19 @@ class InventarioStockRepository:
 
         for field in allowed_fields:
             if field in stock_data:
-                set_parts.append(f"{field} = :{field}")
+                set_parts.append(
+                    f"{field} = :{field}"
+                )
 
         if not set_parts:
-            return self.get_by_id(stock_id)
+            return self.get_by_id(
+                stock_id
+            )
 
-        stock_data["stock_id"] = stock_id
+        update_data = {
+            **stock_data,
+            "stock_id": stock_id
+        }
 
         sql = f"""
         UPDATE inventario_stock
@@ -197,14 +268,22 @@ class InventarioStockRepository:
         cursor = self.connection.cursor()
 
         try:
-            cursor.execute(sql, stock_data)
+            cursor.execute(
+                sql,
+                update_data
+            )
 
-            return self.get_by_id(stock_id)
+            return self.get_by_id(
+                stock_id
+            )
 
         finally:
             cursor.close()
 
-    def delete(self, stock_id: int) -> bool:
+    def delete(
+        self,
+        stock_id: int
+    ) -> bool:
         cursor = self.connection.cursor()
 
         try:

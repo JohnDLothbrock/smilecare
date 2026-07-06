@@ -1,52 +1,200 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 function Navbar() {
+  const [openMenu, setOpenMenu] = useState(null);
+
+  function toggleMenu(menuName) {
+    setOpenMenu((currentMenu) =>
+      currentMenu === menuName
+        ? null
+        : menuName
+    );
+  }
+
+  function closeMenus() {
+    setOpenMenu(null);
+  }
+
   return (
     <header className="navbar">
-      <h1>SmileCare</h1>
+      <Link
+        to="/"
+        className="navbar-logo"
+        onClick={closeMenus}
+      >
+        SmileCare
+      </Link>
 
       <nav className="nav-menu">
-        <Link to="/">Inicio</Link>
+        <Link
+          to="/"
+          onClick={closeMenus}
+        >
+          Inicio
+        </Link>
 
-        <details className="nav-dropdown">
-          <summary>Clínica</summary>
+        <details
+          className="nav-dropdown"
+          open={openMenu === "clinica"}
+        >
+          <summary
+            onClick={(event) => {
+              event.preventDefault();
+              toggleMenu("clinica");
+            }}
+          >
+            Clínica
+          </summary>
 
           <div className="nav-dropdown-menu">
-            <Link to="/pacientes">Pacientes</Link>
-            <Link to="/doctores">Doctores</Link>
-            <Link to="/citas">Citas</Link>
-            <Link to="/consultas">Consultas</Link>
+            <Link
+              to="/pacientes"
+              onClick={closeMenus}
+            >
+              Pacientes
+            </Link>
+
+            <Link
+              to="/doctores"
+              onClick={closeMenus}
+            >
+              Doctores
+            </Link>
+
+            <Link
+              to="/agenda-medica"
+              onClick={closeMenus}
+            >
+              Agenda Médica
+            </Link>
+
+            <Link
+              to="/atencion-clinica"
+              onClick={closeMenus}
+            >
+              Atención Clínica
+            </Link>
+
+            <Link
+              to="/expediente-clinico"
+              onClick={closeMenus}
+            >
+              Expediente Clínico
+            </Link>
           </div>
         </details>
 
-        <details className="nav-dropdown">
-          <summary>Tratamientos</summary>
+        <details
+          className="nav-dropdown"
+          open={openMenu === "tratamientos"}
+        >
+          <summary
+            onClick={(event) => {
+              event.preventDefault();
+              toggleMenu("tratamientos");
+            }}
+          >
+            Tratamientos
+          </summary>
 
           <div className="nav-dropdown-menu">
-            <Link to="/tratamientos">Tratamientos</Link>
-            <Link to="/tratamientos-consulta">Tratamientos Consulta</Link>
+            <Link
+              to="/tratamientos"
+              onClick={closeMenus}
+            >
+              Tratamientos
+            </Link>
           </div>
         </details>
 
-        <details className="nav-dropdown">
-          <summary>Finanzas</summary>
+        <details
+          className="nav-dropdown"
+          open={openMenu === "finanzas"}
+        >
+          <summary
+            onClick={(event) => {
+              event.preventDefault();
+              toggleMenu("finanzas");
+            }}
+          >
+            Finanzas
+          </summary>
 
           <div className="nav-dropdown-menu">
-            <Link to="/facturas">Facturas</Link>
-            <Link to="/metodos-pago">Métodos Pago</Link>
-            <Link to="/pagos">Pagos</Link>
+            <Link
+              to="/caja"
+              onClick={closeMenus}
+            >
+              Caja
+            </Link>
+
+            <Link
+              to="/facturas"
+              onClick={closeMenus}
+            >
+              Facturas
+            </Link>
+
+            <Link
+              to="/metodos-pago"
+              onClick={closeMenus}
+            >
+              Métodos Pago
+            </Link>
+
+            <Link
+              to="/pagos"
+              onClick={closeMenus}
+            >
+              Pagos
+            </Link>
           </div>
         </details>
 
-        <details className="nav-dropdown">
-            <summary>Inventario</summary>
+        <details
+          className="nav-dropdown"
+          open={openMenu === "inventario"}
+        >
+          <summary
+            onClick={(event) => {
+              event.preventDefault();
+              toggleMenu("inventario");
+            }}
+          >
+            Inventario
+          </summary>
 
-            <div className="nav-dropdown-menu">
-                <Link to="/proveedores">Proveedores</Link>
-                <Link to="/insumos">Insumos</Link>
-                <Link to="/inventario-stock">Stock</Link>
-            </div>
+          <div className="nav-dropdown-menu">
+            <Link
+              to="/proveedores"
+              onClick={closeMenus}
+            >
+              Proveedores
+            </Link>
+
+            <Link
+              to="/compras"
+              onClick={closeMenus}
+            >
+              Compras e Insumos
+            </Link>
+
+            <Link
+              to="/inventario-stock"
+              onClick={closeMenus}
+            >
+              Stock
+            </Link>
+          </div>
         </details>
+
+        <Link
+          to="/admin"
+          onClick={closeMenus}
+        >
+          Administración
+        </Link>
       </nav>
     </header>
   );

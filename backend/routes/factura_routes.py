@@ -73,6 +73,13 @@ def update_factura(
     )
 
 
+@router.put("/{factura_id}/restaurar")
+def restore_factura(factura_id: int, connection=Depends(get_db)):
+    factura_service = FacturaService(connection)
+
+    return factura_service.restore_factura(factura_id)
+
+
 @router.delete("/{factura_id}")
 def delete_factura(factura_id: int, connection=Depends(get_db)):
     factura_service = FacturaService(connection)

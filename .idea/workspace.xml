@@ -5,11 +5,37 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8a7a8932-3c61-470a-b72b-bfc406297961" name="Changes" comment="trabajo del front">
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/Compras.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/DetalleCompra.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/routes/security_routes.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/workflow_schemas.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/Admin.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/AgendaMedica.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/AtencionClinica.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/Caja.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/ExpedienteClinico.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/repositories/factura_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/repositories/factura_repository.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/repositories/inventario_stock_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/repositories/inventario_stock_repository.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/routes/compra_routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/compra_routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/routes/factura_routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/factura_routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/routes/inventario_stock_routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/inventario_stock_routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/services/compra_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/services/compra_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/services/factura_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/services/factura_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/services/inventario_stock_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/services/inventario_stock_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/services/movimiento_inventario_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/services/movimiento_inventario_service.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Navbar.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Citas.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Compras.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Compras.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Consultas.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/DetalleCompra.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Facturas.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Facturas.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Home.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Home.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Insumos.jsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/InventarioStock.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/InventarioStock.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Pagos.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Pagos.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/TratamientosConsulta.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,22 +54,22 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "JohnDLothbrock"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;JohnDLothbrock&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/JohnDLothbrock/smilecare.git",
-    "accountId": "0566f9aa-b488-4ee3-83d3-2b1fc4180c97"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/JohnDLothbrock/smilecare.git&quot;,
+    &quot;accountId&quot;: &quot;0566f9aa-b488-4ee3-83d3-2b1fc4180c97&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 0,
-  "fromUser": false
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0,
+  &quot;fromUser&quot;: false
+}</component>
   <component name="ProjectId" id="3Fq4ZGa8CsGWac4fcbFJMXcsIm4" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -63,6 +89,7 @@
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/dev/PyCharm/smilecare",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -112,6 +139,7 @@
       <option name="presentableId" value="Default" />
       <updated>1782789318473</updated>
       <workItem from="1782789319477" duration="20885000" />
+      <workItem from="1783094115179" duration="17361000" />
     </task>
     <task id="LOCAL-00001" summary="first modules of the backend">
       <option name="closed" value="true" />

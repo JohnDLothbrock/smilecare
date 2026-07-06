@@ -259,12 +259,184 @@ th {
 }
 
 .warning-badge {
-  background: #fef3c7;
-  color: #92400e;
+  background: #dcfce7;
+  color: #651616;
 }
 
 .helper-text {
   color: #64748b;
   font-size: 14px;
   margin-bottom: 16px;
+}
+
+.invoice-summary {
+  margin-top: 16px;
+  padding: 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+.invoice-summary p {
+  margin: 6px 0;
+}
+
+.compact-list {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.compact-list li {
+  margin-bottom: 8px;
+}
+
+.payment-summary {
+  margin-top: 16px;
+  padding: 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+.payment-summary p {
+  margin: 6px 0;
+}
+
+.checkout-summary {
+  margin-top: 16px;
+  padding: 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+.checkout-summary p {
+  margin: 6px 0;
+}
+
+.clinical-summary {
+  margin-top: 16px;
+  padding: 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+.clinical-summary p {
+  margin: 6px 0;
+}
+
+.agenda-summary {
+  margin-top: 16px;
+  padding: 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+.agenda-summary p {
+  margin: 6px 0;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.dashboard-card {
+  background: white;
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+  border: 1px solid #e2e8f0;
+}
+
+.dashboard-card h3 {
+  margin: 0 0 8px 0;
+  color: #334155;
+  font-size: 16px;
+}
+
+.dashboard-card p {
+  margin: 0 0 12px 0;
+  font-size: 30px;
+  font-weight: bold;
+  color: #0f172a;
+}
+
+.dashboard-card a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.dashboard-card a:hover {
+  text-decoration: underline;
+}
+
+.quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.quick-actions a {
+  padding: 10px 14px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.quick-actions a:hover {
+  background: #dbeafe;
+}
+
+.workflow-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 14px;
+}
+
+.workflow-grid div {
+  padding: 14px;
+  background: #f8fafc;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+}
+
+.workflow-grid p {
+  margin-bottom: 0;
+}
+
+.navbar-logo {
+  color: white;
+  text-decoration: none;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.navbar-logo:hover {
+  text-decoration: none;
+}
+
+.admin-summary {
+  margin-top: 16px;
+  padding: 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+.admin-summary p {
+  margin: 6px 0;
 }

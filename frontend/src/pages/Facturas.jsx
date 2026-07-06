@@ -2,22 +2,26 @@ import { useEffect, useState } from "react";
 
 import { apiClient } from "../api/apiClient.js";
 
-const initialForm = {
+const TAX_RATE = 0.13;
+
+const initialEditForm = {
   paciente_id: "",
   consulta_id: "",
   numero_factura: "",
   fecha_emision: "",
-  subtotal: "",
-  impuesto: "0",
   estado: "PENDIENTE"
 };
 
 function Facturas() {
   const [facturas, setFacturas] = useState([]);
+  const [detallesFactura, setDetallesFactura] = useState([]);
   const [pacientes, setPacientes] = useState([]);
   const [consultas, setConsultas] = useState([]);
-  const [form, setForm] = useState(initialForm);
-  const [editingId, setEditingId] = useState(null);
+
+  const [editForm, setEditForm] = useState(initialEditForm);
+  const [editingFacturaId, setEditingFacturaId] = useState(null);
+  const [selectedFacturaId, setSelectedFacturaId] = useState(null);
+
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -34,6 +38,16 @@ function Facturas() {
       setError(err.message);
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function loadDetallesFactura() {
+    try {
+      const data = await apiClient.get("/detalle-factura");
+
+      setDetallesFactura(data);
+    } catch (err) {
+      setError(err.message);
     }
   }
 
@@ -57,86 +71,188 @@ function Facturas() {
     }
   }
 
+  async function loadPageData() {
+    await Promise.all([
+      loadFacturas(),
+      loadDetallesFactura(),
+      loadPacientes(),
+      loadConsultas()
+    ]);
+  }
+
   useEffect(() => {
-    loadFacturas();
-    loadPacientes();
-    loadConsultas();
+    loadPageData();
   }, []);
 
-  function handleChange(event) {
+  function roundMoney(value) {
+    return Math.round((Number(value) + Number.EPSILON) * 100) / 100;
+  }
+
+  function handleEditChange(event) {
     const { name, value } = event.target;
 
-    if (name === "consulta_id") {
-      const selectedConsulta = consultas.find(
-        (consulta) => String(consulta.consulta_id) === value
-      );
-
-      setForm((currentForm) => ({
-        ...currentForm,
-        consulta_id: value,
-        paciente_id: selectedConsulta?.paciente_id ?? currentForm.paciente_id
-      }));
-
-      return;
-    }
-
-    setForm((currentForm) => ({
+    setEditForm((currentForm) => ({
       ...currentForm,
       [name]: value
     }));
   }
 
-  function buildPayload() {
+  function getFacturaById(facturaId) {
+    return facturas.find(
+      (factura) => String(factura.factura_id) === String(facturaId)
+    );
+  }
+
+  function getDetallesByFacturaId(facturaId) {
+    return detallesFactura.filter(
+      (detalle) => String(detalle.factura_id) === String(facturaId)
+    );
+  }
+
+  function getFacturaSubtotal(factura) {
+    const detalles = getDetallesByFacturaId(factura.factura_id);
+
+    if (detalles.length > 0) {
+      return roundMoney(
+        detalles.reduce(
+          (total, detalle) => total + Number(detalle.subtotal || 0),
+          0
+        )
+      );
+    }
+
+    return roundMoney(factura.subtotal || 0);
+  }
+
+  function getFacturaImpuesto(factura) {
+    return roundMoney(getFacturaSubtotal(factura) * TAX_RATE);
+  }
+
+  function getFacturaTotal(factura) {
+    if (factura.total !== undefined && factura.total !== null) {
+      return factura.total;
+    }
+
+    return roundMoney(getFacturaSubtotal(factura) + getFacturaImpuesto(factura));
+  }
+
+  function getPacienteName(pacienteId) {
+    const paciente = pacientes.find(
+      (item) => String(item.paciente_id) === String(pacienteId)
+    );
+
+    if (!paciente) {
+      return pacienteId || "";
+    }
+
+    return `${paciente.nombre} ${paciente.apellido}`;
+  }
+
+  function formatConsultaLabel(consulta) {
+    const paciente =
+      consulta.paciente_nombre || `Paciente ${consulta.paciente_id}`;
+
+    const doctor =
+      consulta.doctor_nombre || `Doctor ${consulta.doctor_id}`;
+
+    return `Consulta ${consulta.consulta_id} - ${paciente} con ${doctor}`;
+  }
+
+  function getConsultaLabel(consultaId) {
+    const consulta = consultas.find(
+      (item) => String(item.consulta_id) === String(consultaId)
+    );
+
+    if (!consulta) {
+      return consultaId || "";
+    }
+
+    return formatConsultaLabel(consulta);
+  }
+
+  function getStatusBadgeClass(status) {
+    if (status === "PAGADA") {
+      return "badge success-badge";
+    }
+
+    if (status === "ANULADA") {
+      return "badge danger-badge";
+    }
+
+    return "badge warning-badge";
+  }
+
+  function handleViewDetails(facturaId) {
+    setSelectedFacturaId(facturaId);
+    setMessage("");
+    setError("");
+  }
+
+  function handleEditFactura(factura) {
+    setEditingFacturaId(factura.factura_id);
+    setSelectedFacturaId(factura.factura_id);
+
+    setEditForm({
+      paciente_id: factura.paciente_id ?? "",
+      consulta_id: factura.consulta_id ?? "",
+      numero_factura: factura.numero_factura ?? "",
+      fecha_emision: factura.fecha_emision
+        ? factura.fecha_emision.substring(0, 10)
+        : "",
+      estado: factura.estado ?? "PENDIENTE"
+    });
+
+    setMessage("Factura seleccionada para edición.");
+    setError("");
+  }
+
+  function handleCancelEdit() {
+    setEditingFacturaId(null);
+    setEditForm(initialEditForm);
+    setMessage("");
+    setError("");
+  }
+
+  function buildFacturaUpdatePayload() {
+    const factura = getFacturaById(editingFacturaId);
+
+    if (!factura) {
+      throw new Error("No se encontró la factura seleccionada.");
+    }
+
+    const subtotal = getFacturaSubtotal(factura);
+    const impuesto = roundMoney(subtotal * TAX_RATE);
+
     return {
-      paciente_id: Number(form.paciente_id),
-      consulta_id: Number(form.consulta_id),
-      numero_factura: form.numero_factura,
-      fecha_emision: form.fecha_emision || null,
-      subtotal: Number(form.subtotal),
-      impuesto: Number(form.impuesto),
-      estado: form.estado
+      paciente_id: Number(editForm.paciente_id),
+      consulta_id: Number(editForm.consulta_id),
+      numero_factura: editForm.numero_factura,
+      fecha_emision: editForm.fecha_emision || null,
+      subtotal,
+      impuesto,
+      estado: editForm.estado
     };
   }
 
-  function getTotalPreview() {
-    const subtotal = Number(form.subtotal || 0);
-    const impuesto = Number(form.impuesto || 0);
-
-    return subtotal + impuesto;
-  }
-
-  function generateFacturaNumber() {
-    const currentYear = new Date().getFullYear();
-    const randomNumber = Math.floor(Math.random() * 900000) + 100000;
-
-    setForm((currentForm) => ({
-      ...currentForm,
-      numero_factura: `FAC-${currentYear}-${randomNumber}`
-    }));
-  }
-
-  async function handleSubmit(event) {
+  async function handleSubmitEdit(event) {
     event.preventDefault();
 
     try {
       setLoading(true);
-      setError("");
       setMessage("");
+      setError("");
 
-      const payload = buildPayload();
+      const payload = buildFacturaUpdatePayload();
 
-      if (editingId === null) {
-        await apiClient.post("/facturas", payload);
-        setMessage("Factura creada correctamente.");
-      } else {
-        await apiClient.put(`/facturas/${editingId}`, payload);
-        setMessage("Factura actualizada correctamente.");
-      }
+      await apiClient.put(`/facturas/${editingFacturaId}`, payload);
 
-      setForm(initialForm);
-      setEditingId(null);
+      setEditingFacturaId(null);
+      setEditForm(initialEditForm);
+
+      setMessage("Factura actualizada correctamente.");
 
       await loadFacturas();
+      await loadDetallesFactura();
     } catch (err) {
       setError(err.message);
     } finally {
@@ -144,28 +260,91 @@ function Facturas() {
     }
   }
 
-  function handleEdit(factura) {
-    setEditingId(factura.factura_id);
+  async function syncFacturaTotals(facturaId, updatedDetails) {
+    const factura = getFacturaById(facturaId);
 
-    setForm({
-      paciente_id: factura.paciente_id ?? "",
-      consulta_id: factura.consulta_id ?? "",
-      numero_factura: factura.numero_factura ?? "",
+    if (!factura) {
+      return;
+    }
+
+    const relatedDetails = updatedDetails.filter(
+      (detalle) => String(detalle.factura_id) === String(facturaId)
+    );
+
+    const subtotal = roundMoney(
+      relatedDetails.reduce(
+        (total, detalle) => total + Number(detalle.subtotal || 0),
+        0
+      )
+    );
+
+    const impuesto = roundMoney(subtotal * TAX_RATE);
+
+    await apiClient.put(`/facturas/${facturaId}`, {
+      paciente_id: Number(factura.paciente_id),
+      consulta_id: Number(factura.consulta_id),
+      numero_factura: factura.numero_factura,
       fecha_emision: factura.fecha_emision
         ? factura.fecha_emision.substring(0, 10)
-        : "",
-      subtotal: factura.subtotal ?? "",
-      impuesto: factura.impuesto ?? "0",
-      estado: factura.estado ?? "PENDIENTE"
+        : null,
+      subtotal,
+      impuesto,
+      estado: factura.estado
     });
-
-    setMessage("");
-    setError("");
   }
 
-  async function handleDelete(facturaId) {
+  async function handleDeleteDetalle(detalleFacturaId) {
     const confirmed = window.confirm(
-      "¿Seguro que desea eliminar esta factura?"
+      "¿Seguro que desea eliminar este servicio de la factura?"
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    const detalle = detallesFactura.find(
+      (item) => String(item.detalle_factura_id) === String(detalleFacturaId)
+    );
+
+    try {
+      setLoading(true);
+      setMessage("");
+      setError("");
+
+      await apiClient.delete(`/detalle-factura/${detalleFacturaId}`);
+
+      const updatedDetails = detallesFactura.filter(
+        (item) => String(item.detalle_factura_id) !== String(detalleFacturaId)
+      );
+
+      if (detalle?.factura_id) {
+        await syncFacturaTotals(detalle.factura_id, updatedDetails);
+      }
+
+      setMessage("Servicio eliminado correctamente.");
+
+      await loadFacturas();
+      await loadDetallesFactura();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleDeleteFactura(facturaId) {
+    const factura = getFacturaById(facturaId);
+
+    if (!factura) {
+      setError("No se encontró la factura seleccionada.");
+      return;
+    }
+
+    const confirmed = window.confirm(
+      `¿Seguro que desea anular esta factura?\n\n` +
+        `Factura: ${factura.numero_factura}\n\n` +
+        `No se eliminarán los servicios, pagos ni comprobantes relacionados.\n` +
+        `La factura se moverá a la sección de facturas anuladas y podrá restaurarse después.`
     );
 
     if (!confirmed) {
@@ -174,14 +353,24 @@ function Facturas() {
 
     try {
       setLoading(true);
-      setError("");
       setMessage("");
+      setError("");
 
       await apiClient.delete(`/facturas/${facturaId}`);
 
-      setMessage("Factura eliminada correctamente.");
+      if (String(selectedFacturaId) === String(facturaId)) {
+        setSelectedFacturaId(null);
+      }
+
+      if (String(editingFacturaId) === String(facturaId)) {
+        setEditingFacturaId(null);
+        setEditForm(initialEditForm);
+      }
+
+      setMessage("Factura anulada correctamente.");
 
       await loadFacturas();
+      await loadDetallesFactura();
     } catch (err) {
       setError(err.message);
     } finally {
@@ -189,166 +378,81 @@ function Facturas() {
     }
   }
 
-  function handleCancelEdit() {
-    setEditingId(null);
-    setForm(initialForm);
-    setMessage("");
-    setError("");
+  async function handleRestoreFactura(facturaId) {
+    const factura = getFacturaById(facturaId);
+
+    if (!factura) {
+      setError("No se encontró la factura seleccionada.");
+      return;
+    }
+
+    const confirmed = window.confirm(
+      `¿Desea restaurar esta factura?\n\n` +
+        `Factura: ${factura.numero_factura}\n\n` +
+        `El sistema la devolverá a PAGADA si tiene pagos aplicados, o a PENDIENTE si no tiene pagos.`
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setMessage("");
+      setError("");
+
+      await apiClient.put(`/facturas/${facturaId}/restaurar`, {});
+
+      setMessage("Factura restaurada correctamente.");
+
+      await loadFacturas();
+      await loadDetallesFactura();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   }
 
-  function formatConsultaLabel(consulta) {
-    const paciente = consulta.paciente_nombre || `Paciente ${consulta.paciente_id}`;
-    const doctor = consulta.doctor_nombre || `Doctor ${consulta.doctor_id}`;
+  const activeFacturas = facturas.filter(
+    (factura) => factura.estado !== "ANULADA"
+  );
 
-    return `Consulta ${consulta.consulta_id} - ${paciente} con ${doctor}`;
-  }
+  const deletedFacturas = facturas.filter(
+    (factura) => factura.estado === "ANULADA"
+  );
+
+  const selectedFactura = selectedFacturaId
+    ? getFacturaById(selectedFacturaId)
+    : null;
+
+  const selectedFacturaDetails = selectedFacturaId
+    ? getDetallesByFacturaId(selectedFacturaId)
+    : [];
 
   return (
     <section>
       <div className="page-header">
         <div>
           <h2>Facturas</h2>
-          <p>Administración de facturación asociada a pacientes y consultas.</p>
+          <p>
+            Revisión, anulación y restauración de facturas generadas desde Caja.
+          </p>
         </div>
       </div>
 
       <section className="card">
-        <h3>{editingId === null ? "Crear factura" : "Editar factura"}</h3>
+        <h3>Facturas activas</h3>
 
-        <form className="form-grid" onSubmit={handleSubmit}>
-          <label>
-            Consulta
-            <select
-              name="consulta_id"
-              value={form.consulta_id}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Seleccione una consulta</option>
+        <p className="helper-text">
+          Para crear una nueva factura use la página Caja. Esta sección es para
+          revisar, corregir o anular facturas existentes.
+        </p>
 
-              {consultas.map((consulta) => (
-                <option key={consulta.consulta_id} value={consulta.consulta_id}>
-                  {formatConsultaLabel(consulta)}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label>
-            Paciente
-            <select
-              name="paciente_id"
-              value={form.paciente_id}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Seleccione un paciente</option>
-
-              {pacientes.map((paciente) => (
-                <option key={paciente.paciente_id} value={paciente.paciente_id}>
-                  {paciente.nombre} {paciente.apellido}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label>
-            Número de factura
-            <div className="inline-input">
-              <input
-                type="text"
-                name="numero_factura"
-                value={form.numero_factura}
-                onChange={handleChange}
-                placeholder="FAC-2026-000001"
-                required
-              />
-
-              <button type="button" onClick={generateFacturaNumber}>
-                Generar
-              </button>
-            </div>
-          </label>
-
-          <label>
-            Fecha emisión
-            <input
-              type="date"
-              name="fecha_emision"
-              value={form.fecha_emision}
-              onChange={handleChange}
-            />
-          </label>
-
-          <label>
-            Subtotal
-            <input
-              type="number"
-              name="subtotal"
-              value={form.subtotal}
-              onChange={handleChange}
-              min="0"
-              step="0.01"
-              required
-            />
-          </label>
-
-          <label>
-            Impuesto
-            <input
-              type="number"
-              name="impuesto"
-              value={form.impuesto}
-              onChange={handleChange}
-              min="0"
-              step="0.01"
-              required
-            />
-          </label>
-
-          <label>
-            Estado
-            <select
-              name="estado"
-              value={form.estado}
-              onChange={handleChange}
-              required
-            >
-              <option value="PENDIENTE">PENDIENTE</option>
-              <option value="PAGADA">PAGADA</option>
-              <option value="ANULADA">ANULADA</option>
-            </select>
-          </label>
-
-          <div className="total-preview">
-            <strong>Total:</strong> ₡{getTotalPreview()}
-          </div>
-
-          <div className="form-actions">
-            <button type="submit" disabled={loading}>
-              {editingId === null ? "Guardar" : "Actualizar"}
-            </button>
-
-            {editingId !== null && (
-              <button
-                type="button"
-                className="secondary-button"
-                onClick={handleCancelEdit}
-              >
-                Cancelar
-              </button>
-            )}
-          </div>
-        </form>
+        {loading && <p>Cargando...</p>}
 
         {message && <p className="success-message">{message}</p>}
         {error && <p className="error-message">{error}</p>}
-      </section>
-
-      <section className="card">
-        <h3>Lista de facturas</h3>
-
-        {loading && <p>Cargando...</p>}
 
         <div className="table-wrapper">
           <table>
@@ -368,26 +472,41 @@ function Facturas() {
             </thead>
 
             <tbody>
-              {facturas.map((factura) => (
+              {activeFacturas.map((factura) => (
                 <tr key={factura.factura_id}>
                   <td>{factura.factura_id}</td>
                   <td>{factura.numero_factura}</td>
-                  <td>{factura.paciente_nombre || factura.paciente_id}</td>
+                  <td>
+                    {factura.paciente_nombre ||
+                      getPacienteName(factura.paciente_id)}
+                  </td>
                   <td>{factura.consulta_id}</td>
                   <td>
                     {factura.fecha_emision
                       ? factura.fecha_emision.substring(0, 10)
                       : ""}
                   </td>
-                  <td>₡{factura.subtotal}</td>
-                  <td>₡{factura.impuesto}</td>
-                  <td>₡{factura.total}</td>
-                  <td>{factura.estado}</td>
+                  <td>₡{getFacturaSubtotal(factura)}</td>
+                  <td>₡{getFacturaImpuesto(factura)}</td>
+                  <td>₡{getFacturaTotal(factura)}</td>
+                  <td>
+                    <span className={getStatusBadgeClass(factura.estado)}>
+                      {factura.estado}
+                    </span>
+                  </td>
                   <td>
                     <button
                       type="button"
                       className="small-button"
-                      onClick={() => handleEdit(factura)}
+                      onClick={() => handleViewDetails(factura.factura_id)}
+                    >
+                      Ver servicios
+                    </button>
+
+                    <button
+                      type="button"
+                      className="small-button"
+                      onClick={() => handleEditFactura(factura)}
                     >
                       Editar
                     </button>
@@ -395,22 +514,306 @@ function Facturas() {
                     <button
                       type="button"
                       className="danger-button"
-                      onClick={() => handleDelete(factura.factura_id)}
+                      onClick={() => handleDeleteFactura(factura.factura_id)}
                     >
-                      Eliminar
+                      Anular
                     </button>
                   </td>
                 </tr>
               ))}
 
-              {facturas.length === 0 && !loading && (
+              {activeFacturas.length === 0 && !loading && (
                 <tr>
-                  <td colSpan="10">No hay facturas registradas.</td>
+                  <td colSpan="10">No hay facturas activas registradas.</td>
                 </tr>
               )}
             </tbody>
           </table>
         </div>
+      </section>
+
+      <section className="card">
+        <h3>Facturas anuladas / eliminadas</h3>
+
+        <p className="helper-text">
+          Estas facturas no se muestran como activas, pero se conservan con sus
+          servicios, pagos y comprobantes relacionados. Puede restaurarlas si es
+          necesario.
+        </p>
+
+        <div className="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Número</th>
+                <th>Paciente</th>
+                <th>Consulta</th>
+                <th>Fecha</th>
+                <th>Total</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {deletedFacturas.map((factura) => (
+                <tr key={factura.factura_id}>
+                  <td>{factura.factura_id}</td>
+                  <td>{factura.numero_factura}</td>
+                  <td>
+                    {factura.paciente_nombre ||
+                      getPacienteName(factura.paciente_id)}
+                  </td>
+                  <td>{factura.consulta_id}</td>
+                  <td>
+                    {factura.fecha_emision
+                      ? factura.fecha_emision.substring(0, 10)
+                      : ""}
+                  </td>
+                  <td>₡{getFacturaTotal(factura)}</td>
+                  <td>
+                    <span className={getStatusBadgeClass(factura.estado)}>
+                      {factura.estado}
+                    </span>
+                  </td>
+                  <td>
+                    <button
+                      type="button"
+                      className="small-button"
+                      onClick={() => handleRestoreFactura(factura.factura_id)}
+                    >
+                      Restaurar
+                    </button>
+
+                    <button
+                      type="button"
+                      className="small-button"
+                      onClick={() => handleViewDetails(factura.factura_id)}
+                    >
+                      Ver servicios
+                    </button>
+                  </td>
+                </tr>
+              ))}
+
+              {deletedFacturas.length === 0 && !loading && (
+                <tr>
+                  <td colSpan="8">No hay facturas anuladas.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      {editingFacturaId !== null && (
+        <section className="card">
+          <h3>Editar factura</h3>
+
+          <p className="helper-text">
+            Modifique solamente datos administrativos de la factura. Los
+            servicios y montos provienen del detalle facturado.
+          </p>
+
+          <form className="form-grid" onSubmit={handleSubmitEdit}>
+            <label>
+              Paciente
+              <select
+                name="paciente_id"
+                value={editForm.paciente_id}
+                onChange={handleEditChange}
+                required
+              >
+                <option value="">Seleccione un paciente</option>
+
+                {pacientes.map((paciente) => (
+                  <option
+                    key={paciente.paciente_id}
+                    value={paciente.paciente_id}
+                  >
+                    {paciente.nombre} {paciente.apellido}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label>
+              Consulta
+              <select
+                name="consulta_id"
+                value={editForm.consulta_id}
+                onChange={handleEditChange}
+                required
+              >
+                <option value="">Seleccione una consulta</option>
+
+                {consultas.map((consulta) => (
+                  <option
+                    key={consulta.consulta_id}
+                    value={consulta.consulta_id}
+                  >
+                    {formatConsultaLabel(consulta)}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label>
+              Número de factura
+              <input
+                type="text"
+                name="numero_factura"
+                value={editForm.numero_factura}
+                onChange={handleEditChange}
+                required
+              />
+            </label>
+
+            <label>
+              Fecha emisión
+              <input
+                type="date"
+                name="fecha_emision"
+                value={editForm.fecha_emision}
+                onChange={handleEditChange}
+              />
+            </label>
+
+            <label>
+              Estado
+              <select
+                name="estado"
+                value={editForm.estado}
+                onChange={handleEditChange}
+                required
+              >
+                <option value="PENDIENTE">PENDIENTE</option>
+                <option value="PAGADA">PAGADA</option>
+                <option value="ANULADA">ANULADA</option>
+              </select>
+            </label>
+
+            <div className="form-actions">
+              <button type="submit" disabled={loading}>
+                Guardar cambios
+              </button>
+
+              <button
+                type="button"
+                className="secondary-button"
+                onClick={handleCancelEdit}
+              >
+                Cancelar
+              </button>
+            </div>
+          </form>
+        </section>
+      )}
+
+      <section className="card">
+        <h3>Servicios de la factura</h3>
+
+        {!selectedFactura && (
+          <p className="helper-text">
+            Seleccione una factura con el botón Ver servicios para revisar su
+            detalle.
+          </p>
+        )}
+
+        {selectedFactura && (
+          <>
+            <div className="invoice-summary">
+              <p>
+                <strong>Factura:</strong> {selectedFactura.numero_factura}
+              </p>
+
+              <p>
+                <strong>Estado:</strong>{" "}
+                <span className={getStatusBadgeClass(selectedFactura.estado)}>
+                  {selectedFactura.estado}
+                </span>
+              </p>
+
+              <p>
+                <strong>Paciente:</strong>{" "}
+                {selectedFactura.paciente_nombre ||
+                  getPacienteName(selectedFactura.paciente_id)}
+              </p>
+
+              <p>
+                <strong>Consulta:</strong>{" "}
+                {getConsultaLabel(selectedFactura.consulta_id)}
+              </p>
+
+              <p>
+                <strong>Subtotal:</strong> ₡
+                {getFacturaSubtotal(selectedFactura)}
+              </p>
+
+              <p>
+                <strong>Impuesto 13%:</strong> ₡
+                {getFacturaImpuesto(selectedFactura)}
+              </p>
+
+              <p>
+                <strong>Total:</strong> ₡{getFacturaTotal(selectedFactura)}
+              </p>
+            </div>
+
+            <div className="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Servicio</th>
+                    <th>Cantidad</th>
+                    <th>Precio unitario</th>
+                    <th>Subtotal</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {selectedFacturaDetails.map((detalle) => (
+                    <tr key={detalle.detalle_factura_id}>
+                      <td>{detalle.detalle_factura_id}</td>
+                      <td>{detalle.descripcion}</td>
+                      <td>{detalle.cantidad}</td>
+                      <td>₡{detalle.precio_unitario}</td>
+                      <td>₡{detalle.subtotal}</td>
+                      <td>
+                        {selectedFactura.estado === "ANULADA" ? (
+                          <span className="helper-text">
+                            No editable
+                          </span>
+                        ) : (
+                          <button
+                            type="button"
+                            className="danger-button"
+                            onClick={() =>
+                              handleDeleteDetalle(detalle.detalle_factura_id)
+                            }
+                          >
+                            Eliminar servicio
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+
+                  {selectedFacturaDetails.length === 0 && (
+                    <tr>
+                      <td colSpan="6">
+                        Esta factura no tiene servicios registrados.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </>
+        )}
       </section>
     </section>
   );

@@ -268,6 +268,76 @@ class FacturaRepository:
         finally:
             cursor.close()
 
+    def soft_delete(self, factura_id: int) -> Optional[dict]:
+        cursor = self.connection.cursor()
+
+        try:
+            cursor.execute(
+                """
+                UPDATE facturas
+                SET estado = 'ANULADA'
+                WHERE factura_id = :factura_id
+                """,
+                {
+                    "factura_id": factura_id
+                }
+            )
+
+            if cursor.rowcount == 0:
+                return None
+
+            return self.get_by_id(factura_id)
+
+        finally:
+            cursor.close()
+
+    def restore(self, factura_id: int, estado: str) -> Optional[dict]:
+        cursor = self.connection.cursor()
+
+        try:
+            cursor.execute(
+                """
+                UPDATE facturas
+                SET estado = :estado
+                WHERE factura_id = :factura_id
+                """,
+                {
+                    "factura_id": factura_id,
+                    "estado": estado
+                }
+            )
+
+            if cursor.rowcount == 0:
+                return None
+
+            return self.get_by_id(factura_id)
+
+        finally:
+            cursor.close()
+
+    def count_applied_payments(self, factura_id: int) -> int:
+        cursor = self.connection.cursor()
+
+        try:
+            cursor.execute(
+                """
+                SELECT COUNT(*)
+                FROM pagos
+                WHERE factura_id = :factura_id
+                  AND estado = 'APLICADO'
+                """,
+                {
+                    "factura_id": factura_id
+                }
+            )
+
+            row = cursor.fetchone()
+
+            return int(row[0])
+
+        finally:
+            cursor.close()
+
     def delete(self, factura_id: int) -> bool:
         cursor = self.connection.cursor()
 
