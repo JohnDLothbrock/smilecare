@@ -1,7 +1,14 @@
-const API_BASE_URL =
-  "http://127.0.0.1:8000";
+const API_BASE_URL = (
+  import.meta.env.VITE_API_BASE_URL ||
+  "http://127.0.0.1:8000"
+).replace(
+  /\/+$/,
+  ""
+);
+
 
 let accessToken = null;
+
 
 async function request(
   endpoint,
@@ -12,10 +19,12 @@ async function request(
     ...(options.headers || {})
   };
 
+
   if (accessToken) {
     headers.Authorization =
       `Bearer ${accessToken}`;
   }
+
 
   const response = await fetch(
     `${API_BASE_URL}${endpoint}`,
@@ -25,9 +34,11 @@ async function request(
     }
   );
 
+
   const data = await response
     .json()
     .catch(() => null);
+
 
   if (!response.ok) {
     if (
@@ -41,12 +52,15 @@ async function request(
       );
     }
 
+
     const message =
       data?.detail ||
       "Ocurrió un error al comunicarse con el servidor.";
 
+
     throw new Error(message);
   }
+
 
   return data;
 }
@@ -57,13 +71,16 @@ export const apiClient = {
     accessToken = token || null;
   },
 
+
   clearAccessToken() {
     accessToken = null;
   },
 
+
   get(endpoint) {
     return request(endpoint);
   },
+
 
   post(endpoint, body) {
     return request(
@@ -75,6 +92,7 @@ export const apiClient = {
     );
   },
 
+
   put(endpoint, body) {
     return request(
       endpoint,
@@ -84,6 +102,7 @@ export const apiClient = {
       }
     );
   },
+
 
   delete(endpoint) {
     return request(

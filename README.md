@@ -1257,6 +1257,181 @@ The application uses the cached Microsoft authorization to send password recover
 
 ---
 
+# Running with Docker
+
+SmileCare can also be executed using Docker Compose.
+
+The Docker setup includes:
+
+- FastAPI backend container
+- React production build
+- Nginx frontend container
+- External Oracle Cloud database connection
+- Oracle Wallet mounted at runtime
+
+Oracle Database itself is not included in Docker.
+
+---
+
+## Requirements
+
+Install:
+
+- Docker Desktop
+- Oracle Wallet
+- A configured `backend/.env`
+- Microsoft Outlook authorization cache for password recovery
+
+---
+
+## 1. Create the Docker Configuration File
+
+Copy:
+
+```text
+docker.env.example
+```
+
+as:
+
+```text
+docker.env
+```
+
+Windows PowerShell:
+
+```powershell
+Copy-Item docker.env.example docker.env
+```
+
+Then configure the local Oracle Wallet path.
+
+Example:
+
+```env
+ORACLE_WALLET_HOST_DIR=C:/secure/oracle/Wallet_SmileCare
+VITE_API_BASE_URL=http://localhost:8000
+```
+
+
+Never commit:
+
+```text
+docker.env
+```
+
+---
+
+## 2. Confirm Outlook Authorization
+
+Password recovery requires:
+
+```text
+backend/.microsoft_token_cache.bin
+```
+
+If the file does not exist, run:
+
+```powershell
+python backend/scripts/authorize_outlook.py
+```
+
+The Microsoft cache must never be committed to Git.
+
+---
+
+## 3. Build and Start the Containers
+
+From the project root:
+
+```powershell
+docker compose --env-file docker.env up --build
+```
+
+To run in the background:
+
+```powershell
+docker compose --env-file docker.env up --build -d
+```
+
+---
+
+## 4. Open the Application
+
+Frontend:
+
+```text
+http://localhost:5173
+```
+
+FastAPI Swagger documentation:
+
+```text
+http://localhost:8000/docs
+```
+
+---
+
+## 5. View Container Status
+
+```powershell
+docker compose --env-file docker.env ps
+```
+
+---
+
+## 6. View Logs
+
+All services:
+
+```powershell
+docker compose --env-file docker.env logs -f
+```
+
+Backend:
+
+```powershell
+docker compose --env-file docker.env logs -f backend
+```
+
+Frontend:
+
+```powershell
+docker compose --env-file docker.env logs -f frontend
+```
+
+---
+
+## 7. Stop the Application
+
+```powershell
+docker compose --env-file docker.env down
+```
+
+---
+
+## Docker Architecture
+
+```text
+Browser
+   │
+   ▼
+Frontend Container
+React + Nginx
+Port 5173
+   │
+   ▼
+Backend Container
+FastAPI + Uvicorn
+Port 8000
+   │
+   ▼
+Oracle Cloud Database
+via Oracle Wallet
+```
+
+---
+
 # Running the Application
 
 ## Start the Backend

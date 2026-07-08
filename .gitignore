@@ -5,25 +5,32 @@ __pycache__/
 *.pyd
 .Python
 
+
 # Virtual environments
 .venv/
 venv/
 env/
 
+
 # Environment variables
 .env
 backend/.env
+docker.env
+
 
 # PyCharm
 .idea/
 
+
 # Logs
 *.log
+
 
 # Node / React
 node_modules/
 dist/
 build/
+
 
 # Oracle Wallet
 Wallet_*/
@@ -35,6 +42,7 @@ Wallet_*/
 tnsnames.ora
 sqlnet.ora
 ojdbc.properties
+
 
 # MS email
 backend/.microsoft_token_cache.bin

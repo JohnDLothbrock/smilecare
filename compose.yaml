@@ -1,0 +1,53 @@
+services:
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+
+    container_name:
+      smilecare-backend
+
+    env_file:
+      - ./backend/.env
+
+    environment:
+      ORACLE_WALLET_DIR: /app/wallet
+
+    volumes:
+      - type: bind
+        source: ${ORACLE_WALLET_HOST_DIR}
+        target: /app/wallet
+        read_only: true
+
+      - type: bind
+        source: ./backend/.microsoft_token_cache.bin
+        target: /app/backend/.microsoft_token_cache.bin
+
+    ports:
+      - "8000:8000"
+
+    restart:
+      unless-stopped
+
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+
+      args:
+        VITE_API_BASE_URL:
+          ${VITE_API_BASE_URL:-http://localhost:8000}
+
+    container_name:
+      smilecare-frontend
+
+    depends_on:
+      - backend
+
+    ports:
+      - "5173:80"
+
+    restart:
+      unless-stopped

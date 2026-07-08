@@ -1,0 +1,71 @@
+# ============================================================
+# SMILECARE - DOCKER BUILD IGNORE
+# ============================================================
+
+
+# Git
+.git/
+.github/
+
+
+# IDE
+.idea/
+.vscode/
+
+
+# Python environments
+.venv/
+venv/
+env/
+
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+
+# Logs
+*.log
+
+
+# Environment files and secrets
+.env
+docker.env
+backend/.env
+backend/.microsoft_token_cache.bin
+
+
+# Oracle Wallet
+Wallet_*/
+*.zip
+*.sso
+*.p12
+*.pem
+*.jks
+tnsnames.ora
+sqlnet.ora
+ojdbc.properties
+
+
+# Frontend
+frontend/
+
+
+# Database scripts are not required inside backend image
+database/
+
+
+# Documentation
+docs/
+
+
+# Generated files
+dist/
+build/
+node_modules/
+
+
+# Project documentation
+README.md

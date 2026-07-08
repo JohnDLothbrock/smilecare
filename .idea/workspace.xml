@@ -4,39 +4,26 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8a7a8932-3c61-470a-b72b-bfc406297961" name="Changes" comment=".env ejemplo agregado para dar el template que se necesita para el verdadero .env">
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screenshots/LoginSmileCare1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screenshots/Proveedores.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screenshots/admin1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screenshots/admin2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screenshots/admin3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screenshots/admin4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screenshots/agendamedica.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screenshots/atencionclinica.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screenshots/atencionclinica1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screenshots/auditoria1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screenshots/auditoria2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screenshots/auditoria3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screenshots/caja.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screenshots/caja2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screenshots/dashboard1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screenshots/dashboard2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screenshots/dashboard3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screenshots/doctores.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screenshots/doctores1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screenshots/expedienteclinico.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screenshots/facturas.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screenshots/insumos.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screenshots/metodospago.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screenshots/pacientes.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screenshots/pacientes2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screenshots/pagos.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screenshots/passwordreset.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screenshots/stock.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screenshots/tratamientos.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Admin.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Admin.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/ForgotPassword.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/ForgotPassword.jsx" afterDir="false" />
+    <list default="true" id="8a7a8932-3c61-470a-b72b-bfc406297961" name="Changes" comment="cambio al readme, documentacion">
+      <change afterPath="$PROJECT_DIR$/.dockerignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/requirements-lock.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/compose.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/oracle/00_schema_smilecare.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/oracle/08_seguridad_aplicacion.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/oracle/09_rbac_usuarios_demo.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/oracle/10_datos_demo.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/oracle/11_verificacion_final.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docker.env.example" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/.dockerignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/nginx.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/oracle/02_paquetes_crud.sql" beforeDir="false" afterPath="$PROJECT_DIR$/database/oracle/02_pkg_crud_core.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/oracle/08_verificacion_final.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/oracle/09_datos_prueba_frontend.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/api/apiClient.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/apiClient.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -145,7 +132,7 @@
       <option name="presentableId" value="Default" />
       <updated>1782789318473</updated>
       <workItem from="1782789319477" duration="20885000" />
-      <workItem from="1783094115179" duration="38926000" />
+      <workItem from="1783094115179" duration="43867000" />
     </task>
     <task id="LOCAL-00001" summary="first modules of the backend">
       <option name="closed" value="true" />
@@ -235,7 +222,23 @@
       <option name="project" value="LOCAL" />
       <updated>1783473505161</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="finished the documentation, fixed a few buttons like the one on for &quot;reset de contrasena&quot;">
+      <option name="closed" value="true" />
+      <created>1783478761451</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1783478761451</updated>
+    </task>
+    <task id="LOCAL-00013" summary="cambio al readme, documentacion">
+      <option name="closed" value="true" />
+      <created>1783478861560</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1783478861560</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -253,6 +256,8 @@
     <MESSAGE value="Cambios al front mas que todo para el correcto flow del dia a dia de una app y no tanto centrado en la relacion de las bases de datos" />
     <MESSAGE value="termine la pulida del front, termine todo el modulo del login con JWT, update de los requerimientos, reset y forgot de password usando microsoft graph agregado tambien" />
     <MESSAGE value=".env ejemplo agregado para dar el template que se necesita para el verdadero .env" />
-    <option name="LAST_COMMIT_MESSAGE" value=".env ejemplo agregado para dar el template que se necesita para el verdadero .env" />
+    <MESSAGE value="finished the documentation, fixed a few buttons like the one on for &quot;reset de contrasena&quot;" />
+    <MESSAGE value="cambio al readme, documentacion" />
+    <option name="LAST_COMMIT_MESSAGE" value="cambio al readme, documentacion" />
   </component>
 </project>
