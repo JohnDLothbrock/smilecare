@@ -11,7 +11,7 @@ Full-stack dental clinic management system developed with **FastAPI**, **React**
 
 SmileCare centralizes the clinical, administrative, financial, inventory, security, and auditing processes of a dental clinic in a single web application.
 
-The project was developed as the final project for the **SC-504 Lenguajes de Base de Datos** course.
+The project was developed as the final project for the **SC-504 Lenguajes de Base de Datos** course but his application is for a real life environment, encapsulated with Docker.
 
 ---
 
