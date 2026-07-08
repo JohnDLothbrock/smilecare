@@ -1,7 +1,20 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import {
+  useEffect,
+  useState
+} from "react";
 
-import { apiClient } from "../api/apiClient.js";
+import {
+  Link
+} from "react-router-dom";
+
+import {
+  apiClient
+} from "../api/apiClient.js";
+
+import {
+  useAuth
+} from "../auth/AuthContext.jsx";
+
 
 const initialStats = {
   pacientes: 0,
@@ -14,63 +27,258 @@ const initialStats = {
   stockBajo: 0
 };
 
+
 function Home() {
-  const [stats, setStats] = useState(initialStats);
+  const {
+    user,
+    hasPermission,
+    hasAnyPermission
+  } = useAuth();
 
-  const [recentFacturas, setRecentFacturas] =
-    useState([]);
 
-  const [recentPagos, setRecentPagos] =
-    useState([]);
+  const [stats, setStats] =
+    useState(initialStats);
 
-  const [recentCompras, setRecentCompras] =
-    useState([]);
+  const [
+    recentFacturas,
+    setRecentFacturas
+  ] = useState([]);
 
-  const [lowStockItems, setLowStockItems] =
-    useState([]);
+  const [
+    recentPagos,
+    setRecentPagos
+  ] = useState([]);
 
-  const [loading, setLoading] = useState(false);
+  const [
+    recentCompras,
+    setRecentCompras
+  ] = useState([]);
 
-  const [error, setError] = useState("");
+  const [
+    lowStockItems,
+    setLowStockItems
+  ] = useState([]);
+
+  const [loading, setLoading] =
+    useState(false);
+
+  const [error, setError] =
+    useState("");
+
+
+  const canViewPatients =
+    hasAnyPermission(
+      "PACIENTES_VER",
+      "PACIENTES_GESTIONAR"
+    );
+
+  const canManageDoctors =
+    hasPermission(
+      "DOCTORES_GESTIONAR"
+    );
+
+  const canUseAgenda =
+    hasAnyPermission(
+      "AGENDA_GESTIONAR",
+      "CITAS_GESTIONAR"
+    );
+
+  const canRegisterClinicalAttention =
+    hasPermission(
+      "CONSULTAS_GESTIONAR"
+    );
+
+  const canUseClinicalRecord =
+    hasPermission(
+      "EXPEDIENTE_GESTIONAR"
+    );
+
+  const canManageTreatments =
+    hasPermission(
+      "TRATAMIENTOS_GESTIONAR"
+    );
+
+  const canUseCashier =
+    hasPermission(
+      "CAJA_USAR"
+    );
+
+  const canViewInvoices =
+    hasAnyPermission(
+      "FACTURAS_VER",
+      "CAJA_USAR"
+    );
+
+  const canManagePaymentMethods =
+    hasPermission(
+      "METODOS_PAGO_GESTIONAR"
+    );
+
+  const canViewPayments =
+    hasAnyPermission(
+      "PAGOS_VER",
+      "CAJA_USAR"
+    );
+
+  const canManageSuppliers =
+    hasPermission(
+      "PROVEEDORES_GESTIONAR"
+    );
+
+  const canManagePurchases =
+    hasPermission(
+      "COMPRAS_GESTIONAR"
+    );
+
+  const canViewInventory =
+    hasAnyPermission(
+      "INVENTARIO_VER",
+      "INVENTARIO_GESTIONAR"
+    );
+
+
+  const canViewClinicalWorkflow =
+    canViewPatients ||
+    canUseAgenda ||
+    canRegisterClinicalAttention ||
+    canUseClinicalRecord ||
+    canUseCashier;
+
+
+  const canViewInventoryWorkflow =
+    canManageSuppliers ||
+    canManagePurchases ||
+    canViewInventory;
+
 
   async function loadDashboardData() {
     try {
       setLoading(true);
       setError("");
 
-      const [
-        pacientes,
-        doctores,
-        consultas,
-        facturas,
-        pagos,
-        compras,
-        inventarioStock
-      ] = await Promise.all([
-        apiClient.get("/pacientes"),
-        apiClient.get("/doctores"),
-        apiClient.get("/consultas"),
-        apiClient.get("/facturas"),
-        apiClient.get("/pagos"),
-        apiClient.get("/compras"),
-        apiClient.get("/inventario-stock")
-      ]);
 
-      const lowStock = inventarioStock.filter(
-        (item) => {
+      const requestDefinitions = [
+        {
+          key: "pacientes",
+          endpoint: "/pacientes",
+          enabled: canViewPatients
+        },
+        {
+          key: "doctores",
+          endpoint: "/doctores",
+          enabled: canManageDoctors
+        },
+        {
+          key: "consultas",
+          endpoint: "/consultas",
+          enabled:
+            canRegisterClinicalAttention
+        },
+        {
+          key: "facturas",
+          endpoint: "/facturas",
+          enabled: canViewInvoices
+        },
+        {
+          key: "pagos",
+          endpoint: "/pagos",
+          enabled: canViewPayments
+        },
+        {
+          key: "compras",
+          endpoint: "/compras",
+          enabled: canManagePurchases
+        },
+        {
+          key: "inventarioStock",
+          endpoint: "/inventario-stock",
+          enabled: canViewInventory
+        }
+      ].filter(
+        (requestDefinition) =>
+          requestDefinition.enabled
+      );
+
+
+      const results =
+        await Promise.allSettled(
+          requestDefinitions.map(
+            (requestDefinition) =>
+              apiClient.get(
+                requestDefinition.endpoint
+              )
+          )
+        );
+
+
+      const dashboardData = {};
+
+      const errors = [];
+
+
+      results.forEach(
+        (result, index) => {
+          const requestDefinition =
+            requestDefinitions[index];
+
           if (
-            item.stock_minimo === null ||
-            item.stock_minimo === undefined
+            result.status ===
+            "fulfilled"
           ) {
-            return false;
+            dashboardData[
+              requestDefinition.key
+            ] = result.value;
+          } else {
+            errors.push(
+              result.reason?.message ||
+              "No se pudo cargar una sección."
+            );
           }
-
-          return (
-            Number(item.stock_actual) <=
-            Number(item.stock_minimo)
-          );
         }
       );
+
+
+      const pacientes =
+        dashboardData.pacientes || [];
+
+      const doctores =
+        dashboardData.doctores || [];
+
+      const consultas =
+        dashboardData.consultas || [];
+
+      const facturas =
+        dashboardData.facturas || [];
+
+      const pagos =
+        dashboardData.pagos || [];
+
+      const compras =
+        dashboardData.compras || [];
+
+      const inventarioStock =
+        dashboardData.inventarioStock ||
+        [];
+
+
+      const lowStock =
+        inventarioStock.filter(
+          (item) => {
+            if (
+              item.stock_minimo === null ||
+              item.stock_minimo ===
+                undefined
+            ) {
+              return false;
+            }
+
+            return (
+              Number(item.stock_actual) <=
+              Number(item.stock_minimo)
+            );
+          }
+        );
+
 
       setStats({
         pacientes: pacientes.length,
@@ -79,9 +287,11 @@ function Home() {
         facturas: facturas.length,
         pagos: pagos.length,
         compras: compras.length,
-        productosStock: inventarioStock.length,
+        productosStock:
+          inventarioStock.length,
         stockBajo: lowStock.length
       });
+
 
       setRecentFacturas(
         [...facturas]
@@ -93,6 +303,7 @@ function Home() {
           .slice(0, 5)
       );
 
+
       setRecentPagos(
         [...pagos]
           .sort(
@@ -102,6 +313,7 @@ function Home() {
           )
           .slice(0, 5)
       );
+
 
       setRecentCompras(
         [...compras]
@@ -113,24 +325,45 @@ function Home() {
           .slice(0, 5)
       );
 
+
       setLowStockItems(
         [...lowStock].slice(0, 5)
       );
+
+
+      if (errors.length > 0) {
+        const uniqueErrors = [
+          ...new Set(errors)
+        ];
+
+        setError(
+          "Algunos datos del panel no se pudieron cargar: " +
+          uniqueErrors.join(" ")
+        );
+      }
+
     } catch (err) {
       setError(err.message);
+
     } finally {
       setLoading(false);
     }
   }
 
+
   useEffect(() => {
     loadDashboardData();
-  }, []);
+  }, [user]);
 
-  function getStatusBadgeClass(status) {
-    const normalizedStatus = String(
-      status || ""
-    ).toUpperCase();
+
+  function getStatusBadgeClass(
+    status
+  ) {
+    const normalizedStatus =
+      String(
+        status || ""
+      ).toUpperCase();
+
 
     if (
       normalizedStatus === "PAGADA" ||
@@ -142,6 +375,7 @@ function Home() {
       return "badge success-badge";
     }
 
+
     if (
       normalizedStatus === "ANULADA" ||
       normalizedStatus === "ANULADO" ||
@@ -151,8 +385,10 @@ function Home() {
       return "badge danger-badge";
     }
 
+
     return "badge warning-badge";
   }
+
 
   function formatCurrency(value) {
     return new Intl.NumberFormat(
@@ -167,6 +403,7 @@ function Home() {
     );
   }
 
+
   function formatDate(value) {
     if (!value) {
       return "";
@@ -178,23 +415,28 @@ function Home() {
     );
   }
 
+
   function getStockItemName(item) {
-    if (
-      item.codigo &&
-      item.insumo_nombre
-    ) {
-      return (
-        `${item.codigo} - ` +
-        `${item.insumo_nombre}`
-      );
+    const code =
+      item.insumo_codigo ||
+      item.codigo;
+
+    const name =
+      item.insumo_nombre ||
+      item.nombre;
+
+
+    if (code && name) {
+      return `${code} - ${name}`;
     }
 
+
     return (
-      item.insumo_nombre ||
-      item.nombre ||
+      name ||
       `Insumo ${item.insumo_id}`
     );
   }
+
 
   return (
     <section>
@@ -203,11 +445,16 @@ function Home() {
           <h2>Sistema SmileCare</h2>
 
           <p>
-            Resumen general de la operación clínica,
-            financiera y de inventario.
+            Bienvenido,{" "}
+            <strong>
+              {user?.nombre_usuario}
+            </strong>
+            {" · "}
+            {user?.nombre_rol}
           </p>
         </div>
       </div>
+
 
       {loading && (
         <section className="card">
@@ -217,6 +464,7 @@ function Home() {
         </section>
       )}
 
+
       {error && (
         <section className="card">
           <p className="error-message">
@@ -225,264 +473,370 @@ function Home() {
         </section>
       )}
 
+
       <section className="dashboard-grid">
-        <article className="dashboard-card">
-          <h3>Pacientes</h3>
+        {canViewPatients && (
+          <article className="dashboard-card">
+            <h3>Pacientes</h3>
 
-          <p>{stats.pacientes}</p>
+            <p>{stats.pacientes}</p>
 
-          <Link to="/pacientes">
-            Ver pacientes
-          </Link>
-        </article>
+            <Link to="/pacientes">
+              Ver pacientes
+            </Link>
+          </article>
+        )}
 
-        <article className="dashboard-card">
-          <h3>Doctores</h3>
 
-          <p>{stats.doctores}</p>
+        {canManageDoctors && (
+          <article className="dashboard-card">
+            <h3>Doctores</h3>
 
-          <Link to="/doctores">
-            Ver doctores
-          </Link>
-        </article>
+            <p>{stats.doctores}</p>
 
-        <article className="dashboard-card">
-          <h3>Atenciones clínicas</h3>
+            <Link to="/doctores">
+              Ver doctores
+            </Link>
+          </article>
+        )}
 
-          <p>{stats.atenciones}</p>
 
-          <Link to="/atencion-clinica">
-            Registrar atención
-          </Link>
-        </article>
+        {canRegisterClinicalAttention && (
+          <article className="dashboard-card">
+            <h3>
+              Atenciones clínicas
+            </h3>
 
-        <article className="dashboard-card">
-          <h3>Facturas</h3>
+            <p>{stats.atenciones}</p>
 
-          <p>{stats.facturas}</p>
+            <Link to="/atencion-clinica">
+              Registrar atención
+            </Link>
+          </article>
+        )}
 
-          <Link to="/facturas">
-            Ver facturas
-          </Link>
-        </article>
 
-        <article className="dashboard-card">
-          <h3>Pagos</h3>
+        {canViewInvoices && (
+          <article className="dashboard-card">
+            <h3>Facturas</h3>
 
-          <p>{stats.pagos}</p>
+            <p>{stats.facturas}</p>
 
-          <Link to="/pagos">
-            Ver pagos
-          </Link>
-        </article>
+            <Link to="/facturas">
+              Ver facturas
+            </Link>
+          </article>
+        )}
 
-        <article className="dashboard-card">
-          <h3>Compras recibidas</h3>
 
-          <p>{stats.compras}</p>
+        {canViewPayments && (
+          <article className="dashboard-card">
+            <h3>Pagos</h3>
 
-          <Link to="/compras">
-            Ver compras
-          </Link>
-        </article>
+            <p>{stats.pagos}</p>
 
-        <article className="dashboard-card">
-          <h3>Productos en stock</h3>
+            <Link to="/pagos">
+              Ver pagos
+            </Link>
+          </article>
+        )}
 
-          <p>{stats.productosStock}</p>
 
-          <Link to="/inventario-stock">
-            Ver inventario
-          </Link>
-        </article>
+        {canManagePurchases && (
+          <article className="dashboard-card">
+            <h3>
+              Compras recibidas
+            </h3>
 
-        <article className="dashboard-card">
-          <h3>Stock bajo</h3>
+            <p>{stats.compras}</p>
 
-          <p>{stats.stockBajo}</p>
+            <Link to="/compras">
+              Ver compras
+            </Link>
+          </article>
+        )}
 
-          <Link to="/inventario-stock">
-            Revisar existencias
-          </Link>
-        </article>
+
+        {canViewInventory && (
+          <>
+            <article className="dashboard-card">
+              <h3>
+                Productos en stock
+              </h3>
+
+              <p>
+                {stats.productosStock}
+              </p>
+
+              <Link to="/inventario-stock">
+                Ver inventario
+              </Link>
+            </article>
+
+            <article className="dashboard-card">
+              <h3>Stock bajo</h3>
+
+              <p>{stats.stockBajo}</p>
+
+              <Link to="/inventario-stock">
+                Revisar existencias
+              </Link>
+            </article>
+          </>
+        )}
       </section>
+
 
       <section className="card">
         <h3>Acciones rápidas</h3>
 
         <p className="helper-text">
-          Accesos directos a los principales procesos
-          del sistema.
+          Accesos directos disponibles
+          para su perfil.
         </p>
 
         <div className="quick-actions">
-          <Link to="/atencion-clinica">
-            Registrar atención clínica
-          </Link>
+          {canRegisterClinicalAttention && (
+            <Link to="/atencion-clinica">
+              Registrar atención clínica
+            </Link>
+          )}
 
-          <Link to="/caja">
-            Cobrar en Caja
-          </Link>
+          {canUseCashier && (
+            <Link to="/caja">
+              Cobrar en Caja
+            </Link>
+          )}
 
-          <Link to="/compras">
-            Registrar compra e insumos
-          </Link>
+          {canManagePurchases && (
+            <Link to="/compras">
+              Registrar compra e insumos
+            </Link>
+          )}
 
-          <Link to="/inventario-stock">
-            Revisar Stock
-          </Link>
+          {canViewInventory && (
+            <Link to="/inventario-stock">
+              Revisar Stock
+            </Link>
+          )}
 
-          <Link to="/expediente-clinico">
-            Consultar expediente clínico
-          </Link>
+          {canUseClinicalRecord && (
+            <Link to="/expediente-clinico">
+              Consultar expediente clínico
+            </Link>
+          )}
 
-          <Link to="/agenda-medica">
-            Gestionar agenda médica
-          </Link>
+          {canUseAgenda && (
+            <Link to="/agenda-medica">
+              Gestionar agenda médica
+            </Link>
+          )}
+
+          {canViewPatients && (
+            <Link to="/pacientes">
+              Gestionar pacientes
+            </Link>
+          )}
+
+          {canManageSuppliers && (
+            <Link to="/proveedores">
+              Gestionar proveedores
+            </Link>
+          )}
         </div>
       </section>
 
-      <section className="card">
-        <h3>Flujo clínico principal</h3>
 
-        <p className="helper-text">
-          La interfaz integra los procesos relacionados
-          para reducir pasos innecesarios para el usuario.
-        </p>
+      {canViewClinicalWorkflow && (
+        <section className="card">
+          <h3>Flujo clínico principal</h3>
 
-        <div className="workflow-grid">
-          <div>
-            <strong>1. Paciente</strong>
+          <p className="helper-text">
+            Procesos disponibles según los
+            permisos del usuario.
+          </p>
 
-            <p>
-              Se registra o selecciona el paciente
-              que recibirá atención.
-            </p>
+          <div className="workflow-grid">
+            {canViewPatients && (
+              <div>
+                <strong>
+                  Pacientes
+                </strong>
+
+                <p>
+                  Registro y consulta de los
+                  pacientes de la clínica.
+                </p>
+              </div>
+            )}
+
+            {canUseAgenda && (
+              <div>
+                <strong>
+                  Agenda médica
+                </strong>
+
+                <p>
+                  Gestión de horarios,
+                  disponibilidad y citas.
+                </p>
+              </div>
+            )}
+
+            {canRegisterClinicalAttention && (
+              <div>
+                <strong>
+                  Atención clínica
+                </strong>
+
+                <p>
+                  Registro de cita, consulta
+                  y tratamientos aplicados.
+                </p>
+              </div>
+            )}
+
+            {canRegisterClinicalAttention && (
+              <div>
+                <strong>
+                  Cirugía opcional
+                </strong>
+
+                <p>
+                  Registro de cirugías cuando
+                  corresponden a la atención.
+                </p>
+              </div>
+            )}
+
+            {canUseClinicalRecord && (
+              <div>
+                <strong>
+                  Expediente clínico
+                </strong>
+
+                <p>
+                  Consulta del historial
+                  completo del paciente.
+                </p>
+              </div>
+            )}
+
+            {canUseCashier && (
+              <div>
+                <strong>Caja</strong>
+
+                <p>
+                  Facturación, pagos y
+                  comprobantes.
+                </p>
+              </div>
+            )}
           </div>
+        </section>
+      )}
 
-          <div>
-            <strong>2. Agenda médica</strong>
 
-            <p>
-              Se revisan los horarios y la disponibilidad
-              de los doctores.
-            </p>
+      {canViewInventoryWorkflow && (
+        <section className="card">
+          <h3>
+            Flujo de compras e inventario
+          </h3>
+
+          <p className="helper-text">
+            Procesos de abastecimiento y
+            control de existencias.
+          </p>
+
+          <div className="workflow-grid">
+            {canManageSuppliers && (
+              <div>
+                <strong>
+                  Proveedores
+                </strong>
+
+                <p>
+                  Gestión de las empresas
+                  proveedoras.
+                </p>
+              </div>
+            )}
+
+            {canManagePurchases && (
+              <>
+                <div>
+                  <strong>
+                    Compra recibida
+                  </strong>
+
+                  <p>
+                    Registro de la recepción
+                    de productos.
+                  </p>
+                </div>
+
+                <div>
+                  <strong>
+                    Productos
+                  </strong>
+
+                  <p>
+                    Selección de productos
+                    existentes o creación
+                    de nuevos insumos.
+                  </p>
+                </div>
+
+                <div>
+                  <strong>
+                    Cantidad y costo
+                  </strong>
+
+                  <p>
+                    Registro de cantidades
+                    y costos de compra.
+                  </p>
+                </div>
+
+                <div>
+                  <strong>
+                    Entrada automática
+                  </strong>
+
+                  <p>
+                    Actualización automática
+                    del stock al recibir
+                    una compra.
+                  </p>
+                </div>
+              </>
+            )}
+
+            {canViewInventory && (
+              <div>
+                <strong>
+                  Control de stock
+                </strong>
+
+                <p>
+                  Consulta de existencias,
+                  mínimos y movimientos.
+                </p>
+              </div>
+            )}
           </div>
+        </section>
+      )}
 
-          <div>
-            <strong>3. Atención clínica</strong>
 
-            <p>
-              En un solo flujo se registra la cita,
-              la consulta y los tratamientos aplicados.
-            </p>
-          </div>
-
-          <div>
-            <strong>4. Cirugía opcional</strong>
-
-            <p>
-              Cuando corresponde, la cirugía se registra
-              como parte de la misma atención clínica.
-            </p>
-          </div>
-
-          <div>
-            <strong>5. Expediente clínico</strong>
-
-            <p>
-              Se consulta el historial completo del
-              paciente y sus atenciones anteriores.
-            </p>
-          </div>
-
-          <div>
-            <strong>6. Caja</strong>
-
-            <p>
-              Se genera la factura, sus detalles,
-              el impuesto correspondiente, el pago y
-              el comprobante en un solo proceso.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="card">
-        <h3>Flujo de compras e inventario</h3>
-
-        <p className="helper-text">
-          La recepción de productos y la actualización
-          del inventario forman parte de un mismo proceso.
-        </p>
-
-        <div className="workflow-grid">
-          <div>
-            <strong>1. Proveedor</strong>
-
-            <p>
-              Se selecciona la empresa que suministra
-              los productos a la clínica.
-            </p>
-          </div>
-
-          <div>
-            <strong>2. Compra recibida</strong>
-
-            <p>
-              Se registra la fecha y el usuario
-              responsable de recibir la compra.
-            </p>
-          </div>
-
-          <div>
-            <strong>3. Productos</strong>
-
-            <p>
-              Se seleccionan productos existentes o
-              se registran productos nuevos sin salir
-              del proceso de compra.
-            </p>
-          </div>
-
-          <div>
-            <strong>4. Cantidad y costo</strong>
-
-            <p>
-              Se indica la cantidad recibida y el costo
-              según la unidad de medida del producto.
-            </p>
-          </div>
-
-          <div>
-            <strong>5. Entrada automática</strong>
-
-            <p>
-              Al guardar la compra, el sistema crea
-              los movimientos de entrada y actualiza
-              el stock automáticamente.
-            </p>
-          </div>
-
-          <div>
-            <strong>6. Control de stock</strong>
-
-            <p>
-              Se revisan existencias, stock mínimo,
-              costos recientes y movimientos de
-              inventario.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {lowStockItems.length > 0 && (
+      {canViewInventory &&
+        lowStockItems.length > 0 && (
         <section className="card">
           <h3>Alertas de stock</h3>
 
           <p className="helper-text">
-            Productos que se encuentran en el nivel
-            mínimo o por debajo del mínimo definido.
+            Productos en el nivel mínimo
+            o por debajo del mínimo.
           </p>
 
           <div className="table-wrapper">
@@ -497,256 +851,272 @@ function Home() {
               </thead>
 
               <tbody>
-                {lowStockItems.map((item) => (
-                  <tr key={item.stock_id}>
-                    <td>
-                      {getStockItemName(item)}
-                    </td>
+                {lowStockItems.map(
+                  (item) => (
+                    <tr key={item.stock_id}>
+                      <td>
+                        {getStockItemName(
+                          item
+                        )}
+                      </td>
 
-                    <td>
-                      {item.stock_actual}
-                    </td>
+                      <td>
+                        {item.stock_actual}
+                      </td>
 
-                    <td>
-                      {item.stock_minimo}
-                    </td>
+                      <td>
+                        {item.stock_minimo}
+                      </td>
 
-                    <td>
-                      <span className="badge danger-badge">
-                        Reabastecer
-                      </span>
-                    </td>
-                  </tr>
-                ))}
+                      <td>
+                        <span className="badge danger-badge">
+                          Reabastecer
+                        </span>
+                      </td>
+                    </tr>
+                  )
+                )}
               </tbody>
             </table>
           </div>
         </section>
       )}
 
-      <section className="card">
-        <h3>Últimas compras recibidas</h3>
 
-        <div className="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Proveedor</th>
-                <th>Responsable</th>
-                <th>Fecha</th>
-                <th>Total</th>
-                <th>Estado</th>
-              </tr>
-            </thead>
+      {canManagePurchases && (
+        <section className="card">
+          <h3>
+            Últimas compras recibidas
+          </h3>
 
-            <tbody>
-              {recentCompras.map(
-                (compra) => (
-                  <tr
-                    key={compra.compra_id}
-                  >
-                    <td>
-                      {compra.compra_id}
-                    </td>
+          <div className="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Proveedor</th>
+                  <th>Responsable</th>
+                  <th>Fecha</th>
+                  <th>Total</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
 
-                    <td>
-                      {compra.proveedor_nombre ||
-                        compra.proveedor_id}
-                    </td>
+              <tbody>
+                {recentCompras.map(
+                  (compra) => (
+                    <tr
+                      key={compra.compra_id}
+                    >
+                      <td>
+                        {compra.compra_id}
+                      </td>
 
-                    <td>
-                      {compra.nombre_usuario ||
-                        compra.usuario_id}
-                    </td>
+                      <td>
+                        {compra.proveedor_nombre ||
+                          compra.proveedor_id}
+                      </td>
 
-                    <td>
-                      {formatDate(
-                        compra.fecha_compra
-                      )}
-                    </td>
+                      <td>
+                        {compra.nombre_usuario ||
+                          compra.usuario_id}
+                      </td>
 
-                    <td>
-                      {formatCurrency(
-                        compra.total
-                      )}
-                    </td>
+                      <td>
+                        {formatDate(
+                          compra.fecha_compra
+                        )}
+                      </td>
 
-                    <td>
-                      <span
-                        className={
-                          getStatusBadgeClass(
-                            compra.estado
-                          )
-                        }
-                      >
-                        {compra.estado}
-                      </span>
-                    </td>
-                  </tr>
-                )
-              )}
+                      <td>
+                        {formatCurrency(
+                          compra.total
+                        )}
+                      </td>
 
-              {recentCompras.length === 0 &&
-                !loading && (
-                  <tr>
-                    <td colSpan="6">
-                      No hay compras registradas.
-                    </td>
-                  </tr>
+                      <td>
+                        <span
+                          className={
+                            getStatusBadgeClass(
+                              compra.estado
+                            )
+                          }
+                        >
+                          {compra.estado}
+                        </span>
+                      </td>
+                    </tr>
+                  )
                 )}
-            </tbody>
-          </table>
-        </div>
-      </section>
 
-      <section className="card">
-        <h3>Últimas facturas</h3>
+                {recentCompras.length === 0 &&
+                  !loading && (
+                    <tr>
+                      <td colSpan="6">
+                        No hay compras registradas.
+                      </td>
+                    </tr>
+                  )}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
 
-        <div className="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>Número</th>
-                <th>Paciente</th>
-                <th>Fecha</th>
-                <th>Total</th>
-                <th>Estado</th>
-              </tr>
-            </thead>
 
-            <tbody>
-              {recentFacturas.map(
-                (factura) => (
-                  <tr
-                    key={factura.factura_id}
-                  >
-                    <td>
-                      {factura.numero_factura}
-                    </td>
+      {canViewInvoices && (
+        <section className="card">
+          <h3>Últimas facturas</h3>
 
-                    <td>
-                      {factura.paciente_nombre ||
-                        factura.paciente_id}
-                    </td>
+          <div className="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Número</th>
+                  <th>Paciente</th>
+                  <th>Fecha</th>
+                  <th>Total</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
 
-                    <td>
-                      {formatDate(
-                        factura.fecha_emision
-                      )}
-                    </td>
+              <tbody>
+                {recentFacturas.map(
+                  (factura) => (
+                    <tr
+                      key={factura.factura_id}
+                    >
+                      <td>
+                        {factura.numero_factura}
+                      </td>
 
-                    <td>
-                      {formatCurrency(
-                        factura.total
-                      )}
-                    </td>
+                      <td>
+                        {factura.paciente_nombre ||
+                          factura.paciente_id}
+                      </td>
 
-                    <td>
-                      <span
-                        className={
-                          getStatusBadgeClass(
-                            factura.estado
-                          )
-                        }
-                      >
-                        {factura.estado}
-                      </span>
-                    </td>
-                  </tr>
-                )
-              )}
+                      <td>
+                        {formatDate(
+                          factura.fecha_emision
+                        )}
+                      </td>
 
-              {recentFacturas.length === 0 &&
-                !loading && (
-                  <tr>
-                    <td colSpan="5">
-                      No hay facturas registradas.
-                    </td>
-                  </tr>
+                      <td>
+                        {formatCurrency(
+                          factura.total
+                        )}
+                      </td>
+
+                      <td>
+                        <span
+                          className={
+                            getStatusBadgeClass(
+                              factura.estado
+                            )
+                          }
+                        >
+                          {factura.estado}
+                        </span>
+                      </td>
+                    </tr>
+                  )
                 )}
-            </tbody>
-          </table>
-        </div>
-      </section>
 
-      <section className="card">
-        <h3>Últimos pagos</h3>
+                {recentFacturas.length === 0 &&
+                  !loading && (
+                    <tr>
+                      <td colSpan="5">
+                        No hay facturas registradas.
+                      </td>
+                    </tr>
+                  )}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
 
-        <div className="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>Factura</th>
-                <th>Método</th>
-                <th>Monto</th>
-                <th>Fecha</th>
-                <th>Referencia</th>
-                <th>Estado</th>
-              </tr>
-            </thead>
 
-            <tbody>
-              {recentPagos.map(
-                (pago) => (
-                  <tr key={pago.pago_id}>
-                    <td>
-                      {pago.numero_factura ||
-                        pago.factura_id}
-                    </td>
+      {canViewPayments && (
+        <section className="card">
+          <h3>Últimos pagos</h3>
 
-                    <td>
-                      {pago.metodo_pago_nombre ||
-                        pago.nombre_metodo_pago ||
-                        pago.metodo_pago_id}
-                    </td>
+          <div className="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Factura</th>
+                  <th>Método</th>
+                  <th>Monto</th>
+                  <th>Fecha</th>
+                  <th>Referencia</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
 
-                    <td>
-                      {formatCurrency(
-                        pago.monto
-                      )}
-                    </td>
+              <tbody>
+                {recentPagos.map(
+                  (pago) => (
+                    <tr key={pago.pago_id}>
+                      <td>
+                        {pago.numero_factura ||
+                          pago.factura_id}
+                      </td>
 
-                    <td>
-                      {formatDate(
-                        pago.fecha_pago
-                      )}
-                    </td>
+                      <td>
+                        {pago.metodo_pago_nombre ||
+                          pago.nombre_metodo_pago ||
+                          pago.metodo_pago_id}
+                      </td>
 
-                    <td>
-                      {pago.numero_referencia ||
-                        "Sin referencia"}
-                    </td>
+                      <td>
+                        {formatCurrency(
+                          pago.monto
+                        )}
+                      </td>
 
-                    <td>
-                      <span
-                        className={
-                          getStatusBadgeClass(
-                            pago.estado
-                          )
-                        }
-                      >
-                        {pago.estado}
-                      </span>
-                    </td>
-                  </tr>
-                )
-              )}
+                      <td>
+                        {formatDate(
+                          pago.fecha_pago
+                        )}
+                      </td>
 
-              {recentPagos.length === 0 &&
-                !loading && (
-                  <tr>
-                    <td colSpan="6">
-                      No hay pagos registrados.
-                    </td>
-                  </tr>
+                      <td>
+                        {pago.numero_referencia ||
+                          "Sin referencia"}
+                      </td>
+
+                      <td>
+                        <span
+                          className={
+                            getStatusBadgeClass(
+                              pago.estado
+                            )
+                          }
+                        >
+                          {pago.estado}
+                        </span>
+                      </td>
+                    </tr>
+                  )
                 )}
-            </tbody>
-          </table>
-        </div>
-      </section>
+
+                {recentPagos.length === 0 &&
+                  !loading && (
+                    <tr>
+                      <td colSpan="6">
+                        No hay pagos registrados.
+                      </td>
+                    </tr>
+                  )}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
     </section>
   );
 }
+
 
 export default Home;

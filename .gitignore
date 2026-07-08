@@ -35,3 +35,6 @@ Wallet_*/
 tnsnames.ora
 sqlnet.ora
 ojdbc.properties
+
+# MS email
+backend/.microsoft_token_cache.bin

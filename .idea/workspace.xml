@@ -4,37 +4,37 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8a7a8932-3c61-470a-b72b-bfc406297961" name="Changes" comment="trabajo del front">
-      <change afterPath="$PROJECT_DIR$/backend/routes/security_routes.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/workflow_schemas.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/Admin.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/AgendaMedica.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/AtencionClinica.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/Caja.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/ExpedienteClinico.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/repositories/factura_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/repositories/factura_repository.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/repositories/inventario_stock_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/repositories/inventario_stock_repository.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/routes/compra_routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/compra_routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/routes/factura_routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/factura_routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/routes/inventario_stock_routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/inventario_stock_routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/services/compra_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/services/compra_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/services/factura_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/services/factura_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/services/inventario_stock_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/services/inventario_stock_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/services/movimiento_inventario_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/services/movimiento_inventario_service.py" afterDir="false" />
+    <list default="true" id="8a7a8932-3c61-470a-b72b-bfc406297961" name="Changes" comment="Cambios al front mas que todo para el correcto flow del dia a dia de una app y no tanto centrado en la relacion de las bases de datos">
+      <change afterPath="$PROJECT_DIR$/backend/core/auth_dependencies.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/core/security.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/middleware/audit_logging.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/repositories/audit_admin_repository.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/repositories/audit_repository.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/repositories/auth_repository.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/routes/audit_admin_routes.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/routes/auth_routes.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/scripts/authorize_outlook.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/services/audit_admin_service.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/services/audit_service.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/services/auth_service.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/services/outlook_mail_service.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/auth/AuthContext.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/ProtectedRoute.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/AuditoriaAdmin.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/ForgotPassword.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/Login.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/ResetPassword.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.env" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/middleware/request_logging.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/middleware/request_logging.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/routes/security_routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/security_routes.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/api/apiClient.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/apiClient.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Navbar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Citas.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Compras.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Compras.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Consultas.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/DetalleCompra.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Facturas.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Facturas.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Admin.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Admin.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/Home.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Home.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Insumos.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/InventarioStock.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/InventarioStock.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Pagos.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Pagos.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/TratamientosConsulta.jsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -139,7 +139,7 @@
       <option name="presentableId" value="Default" />
       <updated>1782789318473</updated>
       <workItem from="1782789319477" duration="20885000" />
-      <workItem from="1783094115179" duration="17361000" />
+      <workItem from="1783094115179" duration="32893000" />
     </task>
     <task id="LOCAL-00001" summary="first modules of the backend">
       <option name="closed" value="true" />
@@ -205,7 +205,15 @@
       <option name="project" value="LOCAL" />
       <updated>1783002739240</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Cambios al front mas que todo para el correcto flow del dia a dia de una app y no tanto centrado en la relacion de las bases de datos">
+      <option name="closed" value="true" />
+      <created>1783372984655</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1783372984655</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -220,6 +228,7 @@
     <MESSAGE value="exceptions, detalles compra, logs, movimiento inventario" />
     <MESSAGE value="9 sqls para los requisitos del proyecto, triggers, expresiones regulares, procedimientos con cursores, tablas, datos etc." />
     <MESSAGE value="trabajo del front" />
-    <option name="LAST_COMMIT_MESSAGE" value="trabajo del front" />
+    <MESSAGE value="Cambios al front mas que todo para el correcto flow del dia a dia de una app y no tanto centrado en la relacion de las bases de datos" />
+    <option name="LAST_COMMIT_MESSAGE" value="Cambios al front mas que todo para el correcto flow del dia a dia de una app y no tanto centrado en la relacion de las bases de datos" />
   </component>
 </project>
