@@ -105,12 +105,25 @@ function ForgotPassword() {
                 ? "Enviando..."
                 : "Enviar enlace"}
             </button>
+          </div>
 
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "4px"
+            }}
+          >
             <Link
               to="/login"
-              className="secondary-button"
+              style={{
+                color: "#0f766e",
+                fontSize: "0.95rem",
+                fontWeight: "600",
+                textDecoration: "none"
+              }}
             >
-              Volver al inicio de sesión
+              ← Volver al inicio de sesión
             </Link>
           </div>
         </form>

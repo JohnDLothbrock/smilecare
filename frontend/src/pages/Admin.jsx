@@ -879,7 +879,7 @@ function Admin() {
     <section>
       <div className="page-header">
         <div>
-          <h2>Administración</h2>
+          <h2>Administración de Usuarios y Permisos</h2>
 
           <p>
             Gestión de usuarios, roles y

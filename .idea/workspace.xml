@@ -4,8 +4,39 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8a7a8932-3c61-470a-b72b-bfc406297961" name="Changes" comment="termine la pulida del front, termine todo el modulo del login con JWT, update de los requerimientos, reset y forgot de password usando microsoft graph agregado tambien">
-      <change afterPath="$PROJECT_DIR$/backend/.env.example" afterDir="false" />
+    <list default="true" id="8a7a8932-3c61-470a-b72b-bfc406297961" name="Changes" comment=".env ejemplo agregado para dar el template que se necesita para el verdadero .env">
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/LoginSmileCare1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/Proveedores.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/admin1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/admin2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/admin3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/admin4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/agendamedica.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/atencionclinica.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/atencionclinica1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/auditoria1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/auditoria2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/auditoria3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/caja.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/caja2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/dashboard1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/dashboard2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/dashboard3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/doctores.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/doctores1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/expedienteclinico.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/facturas.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/insumos.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/metodospago.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/pacientes.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/pacientes2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/pagos.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/passwordreset.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/stock.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/tratamientos.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Admin.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Admin.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/ForgotPassword.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/ForgotPassword.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +90,7 @@
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/dev/PyCharm/smilecare",
+    "last_opened_file_path": "C:/dev/PyCharm/smilecare/screenshots",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -74,6 +105,11 @@
     ]
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\dev\PyCharm\smilecare\screenshots" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="smilecare" type="Python.FastAPI">
       <option name="file" value="$PROJECT_DIR$/main.py" />
@@ -109,7 +145,7 @@
       <option name="presentableId" value="Default" />
       <updated>1782789318473</updated>
       <workItem from="1782789319477" duration="20885000" />
-      <workItem from="1783094115179" duration="33695000" />
+      <workItem from="1783094115179" duration="38926000" />
     </task>
     <task id="LOCAL-00001" summary="first modules of the backend">
       <option name="closed" value="true" />
@@ -191,7 +227,15 @@
       <option name="project" value="LOCAL" />
       <updated>1783472929920</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary=".env ejemplo agregado para dar el template que se necesita para el verdadero .env">
+      <option name="closed" value="true" />
+      <created>1783473505161</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1783473505161</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -208,6 +252,7 @@
     <MESSAGE value="trabajo del front" />
     <MESSAGE value="Cambios al front mas que todo para el correcto flow del dia a dia de una app y no tanto centrado en la relacion de las bases de datos" />
     <MESSAGE value="termine la pulida del front, termine todo el modulo del login con JWT, update de los requerimientos, reset y forgot de password usando microsoft graph agregado tambien" />
-    <option name="LAST_COMMIT_MESSAGE" value="termine la pulida del front, termine todo el modulo del login con JWT, update de los requerimientos, reset y forgot de password usando microsoft graph agregado tambien" />
+    <MESSAGE value=".env ejemplo agregado para dar el template que se necesita para el verdadero .env" />
+    <option name="LAST_COMMIT_MESSAGE" value=".env ejemplo agregado para dar el template que se necesita para el verdadero .env" />
   </component>
 </project>
